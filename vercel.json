@@ -2,28 +2,30 @@
     "version": 2,
     "name": "e_learning_platform",
     "builds": [
-      {
-        "src": "e_learning_platform/wsgi.py",
-        "use": "@vercel/python",
-        "config": {"maxLambdaSize": "15mb", "runtime": "python3.x"}
-      },
-      {
-        "src": "build_files.sh",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "staticfiles_build"
+        {
+            "src": "e_learning_platform/wsgi.py",
+            "use": "@vercel/python",
+            "config": {
+                "maxLambdaSize": "15mb",
+                "runtime": "python3.x"
+            }
+        },
+        {
+            "src": "build_files.sh",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "staticfiles_build"
+            }
         }
-      }
     ],
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "e_learning_platform/wsgi.py"
-      },
-      {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
-      }
+        {
+            "src": "/(.*)",
+            "dest": "e_learning_platform/wsgi.py"
+        },
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        }
     ]
-  }
-  
+}
