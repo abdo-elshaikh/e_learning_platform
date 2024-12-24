@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth | {% block title %}{% endblock %}</title>
+
+    <!-- Tailwind CSS CDN -->
+    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+
+    <!-- Font Awesome CDN for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 min-h-lvh grid grid-cols-1 md:grid-cols-2 overflow-hidden relative">
+
+    <!-- Left Side (Form) -->
+    <div class="w-full flex justify-center items-center p-6 md:p-10 relative">
+        <!-- Logo -->
+        <div class="absolute top-0 left-0 p-6">
+            <a href="{% url 'index' %}" class="text-2xl font-bold text-blue-600">
+                <i class="fas fa-graduation-cap"></i> E-Learning
+            </a>
+        </div>
+        <!-- Form Container -->
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Right Side (Pattern Background) -->
+    <div class="hidden md:block w-full relative">
+        <!-- Background Image with opacity effect -->
+        <img src="{% static 'images/auth.png' %}" alt="Auth Pattern"
+            class="w-full h-full object-cover opacity-60">
+
+        <!-- Background Overlay -->
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-blue-900 to-transparent opacity-50"></div>
+    </div>
+
+</body>
+
+</html>

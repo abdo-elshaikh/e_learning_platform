@@ -1,0 +1,35 @@
+.snackbar {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 50;
+    transition: transform 0.3s linear;
+}
+
+.snackbar.success {
+    background-color: #4caf50;
+}
+
+.snackbar.error {
+    background-color: #f44336;
+}
+
+.snackbar.info {
+    background-color: #2196f3;
+}
+
+.snackbar.warning {
+    background-color: #ff9800;
+}
+
+.snackbar .close-btn {
+    cursor: pointer;
+    color: white;
+    transition: transform 0.3s linear;
+}
+
+.snackbar .hide {
+    transform: translateX(150px);
+    transition: transform 0.3s linear;
+    opacity: 0;
+}

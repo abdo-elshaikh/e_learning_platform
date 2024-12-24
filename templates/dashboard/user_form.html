@@ -1,0 +1,14 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}User Form{% endblock %}
+
+{% block content %}
+    <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">{{ form.instance.pk|yesno:"Edit,Create" }} User</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="bg-blue-500 text-white p-3 rounded-md">Save User</button>
+        <a href="{% url 'dashboard:users_list' %}" class="bg-gray-500 text-white p-3 rounded-md">Cancel</a>
+    </form>
+{% endblock %}

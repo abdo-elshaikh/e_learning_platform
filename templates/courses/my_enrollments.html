@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    e-Learning | My Enrollments
+{% endblock title %}
+
+{% block content %}
+<!-- My Enrollments Section -->
+<section id="my-enrollments" class="py-40">
+    <div class="max-w-7xl mx-auto">
+        <!-- Page Title -->
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-blue-600">My Enrollments</h1>
+            <p class="text-lg text-gray-600 mt-2">Here you can manage the courses you are enrolled in.</p>
+        </div>
+
+        <!-- Enrolled Courses List -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {% for enrollment in enrollments %}
+            <div class="bg-white shadow-md rounded-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-blue-600">{{ enrollment.course.title }}</h2>
+                    {% if enrollment.course.id %}
+                        <a href="{% url 'course_detail' enrollment.course.id %}" class="text-blue-600 hover:underline">View Course</a>
+                    {% endif %}
+                </div>
+                <p class="text-gray-600">{{ enrollment.course.description|truncatewords:20 }}</p>
+                <div class="flex items-center justify-between mt-4">
+                    <p class="text-gray-600">Enrolled on : {{ enrollment.enrolled_at|date:"F d, Y" }}</p>
+                </div>
+                {% if enrollment.course.id %}
+                    <a href="{% url 'course_detail' enrollment.course.id %}" class="text-blue-600 hover:underline">Continue Learning</a>
+                {% endif %}
+                <!-- Unenroll Button -->
+                <form action="{% url 'drop_course' enrollment.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Unenroll</button>
+                </form>
+            </div>
+            {% empty %}
+            <p class="col-span-3 text-center text-gray-600">You are not enrolled in any courses yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,107 @@
+{% extends 'base_dashboard.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Total Courses Card -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-gray-800">Total Courses</h3>
+            <div class="flex items-center justify-between mt-4">
+                <div class="text-3xl font-bold text-blue-600">{{ total_courses }}</div>
+                <i class="fas fa-book text-blue-600 text-4xl"></i>
+            </div>
+        </div>
+        <!-- Total Users Card -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-gray-800">Total Users</h3>
+            <div class="flex items-center justify-between mt-4">
+                <div class="text-3xl font-bold text-green-600">{{ total_users }}</div>
+                <i class="fas fa-users text-green-600 text-4xl"></i>
+            </div>
+        </div>
+        <!-- Total Enrollments Card -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-gray-800">Total Enrollments</h3>
+            <div class="flex items-center justify-between mt-4">
+                <div class="text-3xl font-bold text-purple-600">{{ total_enrollments }}</div>
+                <i class="fas fa-user-graduate text-purple-600 text-4xl"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Example Table -->
+    <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-2xl font-semibold text-gray-800">Recent Courses</h3>
+        <div class="mt-4">
+            <table class="w-full table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Title</th>
+                        <th class="px-4 py-2">Instructor</th>
+                        <th class="px-4 py-2">Enrollments</th>
+                        <th class="px-4 py-2">Published</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in recent_courses %}
+                        <tr>
+                            <td class="border px-4 py-2">{{ course.title }}</td>
+                            <td class="border px-4 py-2">{{ course.instructor }}</td>
+                            <td class="border px-4 py-2">{{ course.enrollments }}</td>
+                            <td class="border px-4 py-2">{{ course.published }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Recent Activities or any other info -->
+    <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-2xl font-semibold text-gray-800">Recent Activities</h3>
+        <div class="mt-4">
+            <!-- Example List of Recent Activities -->
+            <ul class="space-y-4">
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-check-circle text-green-600"></i>
+                    <span>Course "Advanced Python" was added</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-user-plus text-blue-600"></i>
+                    <span>New user "John Doe" signed up</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-user-graduate text-purple-600"></i>
+                    <span>User "Jane Smith" enrolled in "Data Science 101"</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Example Chart -->
+    <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-2xl font-semibold text-gray-800">Enrollments by Month</h3>
+        <div class="mt-4">
+            <canvas id="enrollmentsChart"></canvas>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById('enrollmentsChart').getContext('2d');
+        var enrollmentsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Enrollments',
+                    data: [12, 19, 3, 5, 2, 3, 7, 8, 9, 10, 11, 12],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

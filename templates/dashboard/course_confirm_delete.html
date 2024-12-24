@@ -1,0 +1,16 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+    <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Confirm Course Deletion</h2>
+
+    <div class="text-center">
+        <p class="mb-4">Are you sure you want to delete the course: <strong>{{ object.title }}</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-500 text-white p-3 rounded-md">Yes, Delete</button>
+        </form>
+        <a href="{% url 'dashboard:course_list' %}" class="text-blue-500 hover:underline mt-4 inline-block">Cancel</a>
+    </div>
+{% endblock %}

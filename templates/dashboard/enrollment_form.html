@@ -1,0 +1,13 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Enrollment Form{% endblock %}
+
+{% block content %}
+    <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">{{ form.instance.pk|yesno:"Edit,Create" }} Enrollment</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="bg-blue-500 text-white p-3 rounded-md">Save Enrollment</button>
+    </form>
+{% endblock %}

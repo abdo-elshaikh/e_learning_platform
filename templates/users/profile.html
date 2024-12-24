@@ -1,0 +1,73 @@
+{% extends 'auth.html' %}
+{% block title %}Your Profile{% endblock %}
+{% block content %}
+    <div class="w-full max-w-3xl mx-auto bg-white p-10 rounded-xl shadow-lg">
+        <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Your Profile</h2>
+
+        <!-- User Info Section -->
+        <div class="space-y-6">
+            <div class="border-b pb-4">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Personal Information</h3>
+                <p class="text-gray-600"><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                <p class="text-gray-600"><strong>Email:</strong> {{ user.email }}</p>
+                <p class="text-gray-600"><strong>Username:</strong> {{ user.username }}</p>
+            </div>
+
+            <!-- Edit Profile Section -->
+            <div class="border-b pb-4">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Edit Profile</h3>
+                <form action="{% url 'edit_profile' %}" method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <!-- Full Name -->
+                    <div>
+                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                        <input 
+                            type="text" 
+                            id="first_name" 
+                            name="first_name"
+                            class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value="{{ user.first_name }}" 
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input 
+                            type="text" 
+                            id="last_name" 
+                            name="last_name"
+                            class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value="{{ user.last_name }}" 
+                            required
+                        />
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value="{{ user.email }}" 
+                            required
+                        />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+
+
+            <!-- Logout -->
+            <div>
+                <a href="{% url 'logout' %}" class="text-red-500 hover:underline mt-4 block">Logout</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
