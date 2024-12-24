@@ -11,16 +11,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6'
+# SECRET_KEY = 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['.vercel.app', '*']
+ALLOWED_HOSTS = ['.vercel.app', ".now.sh", '*']
 
 
 # Application definition
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,6 +37,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,13 +113,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 # static files
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static',]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
+STATIC_URL = '/staticfiles/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, "staticfiles", "media")
 
 # Authentication URLs
 AUTH_USER_MODEL = 'users.CustomUser'
