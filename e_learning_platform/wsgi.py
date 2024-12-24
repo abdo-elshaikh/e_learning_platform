@@ -10,3 +10,5 @@ import sys
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'e_learning_platform.settings')
 
 application = get_wsgi_application()
+
+app = application
