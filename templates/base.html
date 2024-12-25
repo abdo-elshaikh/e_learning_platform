@@ -89,25 +89,25 @@
                 </button>
             </nav>
             <!-- Mobile Navigation Menu -->
-            <div id="toggle-menu" class="bg-white shadow-md md:hidden hidden">
+            <div id="toggle-menu" class="bg-gray-700 shadow-md md:hidden hidden">
                 <ul class="flex flex-col space-y-4 px-6 py-4 text-sm font-medium">
                     <li>
-                        <a href="{% url 'index' %}" class="hover:text-clifford"><i class="fas fa-home mr-2"></i>Home</a>
+                        <a href="{% url 'index' %}" class="hover:text-blue-600"><i class="fas fa-home mr-2"></i>Home</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-clifford"><i class="fas fa-info-circle mr-2"></i>About</a>
+                        <a href="#" class="hover:text-blue-600"><i class="fas fa-info-circle mr-2"></i>About</a>
                     </li>
                     <li>
-                        <a href="{% url 'category_list' %}" class="hover:text-clifford"><i class="fas fa-book mr-2"></i>Courses</a>
+                        <a href="{% url 'category_list' %}" class="hover:text-blue-600"><i class="fas fa-book mr-2"></i>Courses</a>
                     </li>
                     <li>
-                        <a href="{% url 'course_list' %}" class="hover:text-clifford"><i class="fas fa-th mr-2"></i>Categories</a>
+                        <a href="{% url 'course_list' %}" class="hover:text-blue-600"><i class="fas fa-th mr-2"></i>Categories</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-clifford"><i class="fas fa-user-tie mr-2"></i>Instructors</a>
+                        <a href="#" class="hover:text-blue-600"><i class="fas fa-user-tie mr-2"></i>Instructors</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-clifford"><i class="fas fa-comment mr-2"></i>Testimonials</a>
+                        <a href="#" class="hover:text-blue-600"><i class="fas fa-comment mr-2"></i>Testimonials</a>
                     </li>
                     <hr class="my-4">
                     <!-- Auth Links -->
@@ -115,22 +115,22 @@
                         {% if user.is_superuser %}
                             <li class="dashboard-btn">
                                 <a href="{% url 'dashboard:dashboard_home' %}"
-                                   class="hover:text-clifford"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                                   class="hover:text-blue-600"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
                             </li>
                         {% else %}
                             <li class="enrollments-btn">
-                                <a href="{% url 'my_enrollments' %}" class="hover:text-clifford"><i class="fas fa-graduation-cap mr-2"></i>Enrollments</a>
+                                <a href="{% url 'my_enrollments' %}" class="hover:text-blue-600"><i class="fas fa-graduation-cap mr-2"></i>Enrollments</a>
                             </li>
                         {% endif %}
                         <li class="logout-btn">
-                            <a href="{% url 'logout' %}" class="hover:text -clifford"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                            <a href="{% url 'logout' %}" class="hover:text -blutext-blue-600"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                         </li>
                     {% else %}
                         <li class="login-btn">
-                            <a href="{% url 'login' %}" class="hover:text -clifford"><i class="fas fa-sign-in-alt mr-2"></i>Login</a>
+                            <a href="{% url 'login' %}" class="hover:text -blutext-blue-600"><i class="fas fa-sign-in-alt mr-2"></i>Login</a>
                         </li>
                         <li class="register-btn">
-                            <a href="{% url 'register' %}" class="hover:text -clifford"><i class="fas fa-user-plus mr-2"></i>Register</a>
+                            <a href="{% url 'register' %}" class="hover:text -blutext-blue-600"><i class="fas fa-user-plus mr-2"></i>Register</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -155,13 +155,13 @@
                     <h4 class="text-white text-lg font-bold mb-4">E_Learning</h4>
                     <ul class="space-y-2">
                         <li>
-                            <a href="#" class="hover:text-clifford">About Us</a>
+                            <a href="#" class="hover:text-blue-600">About Us</a>
                         </li>
                         <li>
-                            <a href="#courses" class="hover:text-clifford">Courses</a>
+                            <a href="#courses" class="hover:text-blue-600">Courses</a>
                         </li>
                         <li>
-                            <a href="#testimonials" class="hover:text-clifford">Testimonials</a>
+                            <a href="#testimonials" class="hover:text-blue-600">Testimonials</a>
                         </li>
                     </ul>
                 </div>
@@ -170,13 +170,13 @@
                     <h4 class="text-white text-lg font-bold mb-4">Resources</h4>
                     <ul class="space-y-2">
                         <li>
-                            <a href="#" class="hover:text-clifford">Blog</a>
+                            <a href="#" class="hover:text-blue-600">Blog</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:text-clifford">FAQ</a>
+                            <a href="#" class="hover:text-blue-600">FAQ</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:text-clifford">Contact</a>
+                            <a href="#" class="hover:text-blue-600">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -185,13 +185,13 @@
                     <h4 class="text-white text-lg font-bold mb-4">Connect with Us</h4>
                     <ul class="space-y-2">
                         <li>
-                            <a href="#" class="hover:text-clifford"><i class="fab fa-facebook-f mr-2"></i>Facebook</a>
+                            <a href="#" class="hover:text-blue-600"><i class="fab fa-facebook-f mr-2"></i>Facebook</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:text-clifford"><i class="fab fa-twitter mr-2"></i>Twitter</a>
+                            <a href="#" class="hover:text-blue-600"><i class="fab fa-twitter mr-2"></i>Twitter</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:text-clifford"><i class="fab fa-instagram mr-2"></i>Instagram</a>
+                            <a href="#" class="hover:text-blue-600"><i class="fab fa-instagram mr-2"></i>Instagram</a>
                         </li>
                     </ul>
                 </div>
