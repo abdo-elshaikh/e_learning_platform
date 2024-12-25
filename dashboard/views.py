@@ -10,8 +10,6 @@ from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 
 
-
-
 # dashboard home view and should be is superuser
 @login_required
 def dashboard_home(request):
@@ -125,29 +123,21 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = CustomUser
     template_name = 'dashboard/user_confirm_delete.html'
     success_url = reverse_lazy('dashboard:users_list')
-    # Override delete method to prevent deleting superuser
 
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.object.is_superuser:
-            messages.error(request, 'You cannot delete a superuser')
-            return redirect('dashboard:users_list')
-        success_url = self.get_success_url()
-        self.object.delete()
-        return redirect(success_url)
+        messages.success(self.request, 'User deleted successfully')
+        return super().delete(request, *args, **kwargs)
+
 
 # Detail View for Users (CustomUser)
-
-
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = CustomUser
     template_name = 'dashboard/user_detail.html'
     context_object_name = 'user'
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.get_object()
-        context['profile'] = Profile.objects.get(user=user)
+        context['enrollments'] = Enrollment.objects.filter(student=self.object)
         return context
 
 
@@ -209,8 +199,6 @@ class CategoryListView(LoginRequiredMixin, ListView):
     context_object_name = 'categories'
 
 # Category Create View
-
-
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
