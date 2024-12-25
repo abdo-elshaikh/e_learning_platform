@@ -106,8 +106,6 @@ def my_enrollments(request):
     return render(request, 'courses/my_enrollments.html', {'enrollments': enrollments})
 
 # Drop Course
-
-
 @login_required
 def drop_course(request, enrollment_id):
     enrollment = get_object_or_404(

@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get(
     'SECRET_KEY', 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = False
 
 # ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'abdoelshaikh.pythonanywhere.com']
 # Add your Railway app's URL to the ALLOWED_HOSTS list
