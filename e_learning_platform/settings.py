@@ -11,14 +11,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6'
-SECRET_KEY = os.environ.get(
-    'SECRET_KEY', 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6')
+SECRET_KEY = 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6'
+# SECRET_KEY = os.environ.get(
+#     'SECRET_KEY', 'django-insecure-!tic6fsaf%$l4=g32o_xy0bvf5fs45h_dshmmx+a%zsrop&9#6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['.vercel.app', ".now.sh", '*']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', '.now.sh', '.localhost', '*']
 
 
 # Application definition
@@ -66,7 +66,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'e_learning_platform.wsgi.application'
+# WSGI_APPLICATION = 'e_learning_platform.wsgi.application'
+WSGI_APPLICATION = 'e_learning_platform.wsgi.app'
 
 
 # Database
@@ -113,16 +114,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 # static files
+
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     BASE_DIR / "staticfiles",
+# ]
+# STATIC_ROOT = BASE_DIR / "static/"
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+print('STATIC_ROOT : -> ', STATIC_ROOT)
+print('STATICFILES_DIRS : -> ', STATICFILES_DIRS)
+print('BASE_DIR : -> ', BASE_DIR)
 
 # media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "staticfiles", "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Authentication URLs
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # Default primary key field type
