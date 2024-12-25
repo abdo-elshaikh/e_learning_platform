@@ -52,8 +52,6 @@ def category_detail(request, category_id):
     return render(request, 'courses/category_detail.html', {'category': category, 'courses': courses})
 
 # List Courses
-
-
 def course_list(request):
     if request.GET.get('category'):
         courses = Course.objects.filter(
@@ -72,20 +70,15 @@ def course_list(request):
     return render(request, 'courses/course_list.html', {'courses': page_obj, 'categories': categories})
 
 # Course Detail
-
-
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     return render(request, 'courses/course_detail.html', {'course': course})
 
 # Enroll in a Course
-
-
-@login_required
 def enroll_in_course(request, course_id):
     if not request.user.is_authenticated:
         messages.error(request, 'You need to be logged in to enroll in a course.')
-        return redirect('course_list')
+        return redirect('login')
     course = get_object_or_404(Course, id=course_id)
     if Enrollment.objects.filter(course=course, student=request.user).exists():
         messages.error(request, f'You are already enrolled in {course.title}')
@@ -96,7 +89,7 @@ def enroll_in_course(request, course_id):
     return redirect('course_list')
 
 # My Enrollments
-@login_required
+@login_required(login_url='login')
 def my_enrollments(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You need to be logged in to view your enrollments.')
@@ -106,7 +99,7 @@ def my_enrollments(request):
     return render(request, 'courses/my_enrollments.html', {'enrollments': enrollments})
 
 # Drop Course
-@login_required
+@login_required(login_url='login')
 def drop_course(request, enrollment_id):
     enrollment = get_object_or_404(
         Enrollment, id=enrollment_id, student=request.user)
@@ -116,8 +109,6 @@ def drop_course(request, enrollment_id):
     return redirect('my_enrollments')
 
 # define custom error views
-
-
 def error_404(request, exception):
     return render(request, '404.html', status=404)
 
