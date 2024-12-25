@@ -83,6 +83,9 @@ def course_detail(request, course_id):
 
 @login_required
 def enroll_in_course(request, course_id):
+    if not request.user.is_authenticated:
+        messages.error(request, 'You need to be logged in to enroll in a course.')
+        return redirect('course_list')
     course = get_object_or_404(Course, id=course_id)
     if Enrollment.objects.filter(course=course, student=request.user).exists():
         messages.error(request, f'You are already enrolled in {course.title}')
@@ -95,6 +98,9 @@ def enroll_in_course(request, course_id):
 # My Enrollments
 @login_required
 def my_enrollments(request):
+    if not request.user.is_authenticated:
+        messages.error(request, 'You need to be logged in to view your enrollments.')
+        return redirect('index')
     enrollments = Enrollment.objects.filter(student=request.user).order_by(
         '-enrolled_at').select_related('course')
     return render(request, 'courses/my_enrollments.html', {'enrollments': enrollments})
