@@ -19,7 +19,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app',
-                 'abdoelshaikh.pythonanywhere.com', '.now.sh', '.localhost', '*']
+                 'abdoelshaikh.pythonanywhere.com', 'https://web-production-0d1c.up.railway.app', '.localhost', '*']
 
 
 # Application definition
