@@ -2,6 +2,7 @@
 {% block title %}Register{% endblock %}
 {% block content %}
     <div class="w-full max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg border-gray-300">
+        
         <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-6">Create Your Account</h2>
         <form method="POST" action="{% url 'register' %}" class="space-y-6">
             {% csrf_token %}
@@ -84,48 +85,28 @@
                 Register
             </button>
         </form>
-        <!-- Messages -->
-        {% if messages %}
-            <div class="mt-6 space-y-4">
-                {% for message in messages %}<div class="alert bg-green-500 text-white p-3 rounded">{{ message }}</div>{% endfor %}
-            </div>
-        {% endif %}
-        <!-- Errors -->
-        {% if form.errors %}
-            <div class="alert bg-red-500 text-white mt-6 p-3 rounded">
-                <ul>
-                    {% for field, error in form.errors.items %}
-                        <li>
-                            <strong>{{ field }}:</strong> {{ error|join:", " }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+        <p class="text-center mt-4 text-sm text-gray-600">
+            <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Forgot Password?</a>
+        </p>
         <p class="mt-6 text-center text-sm text-gray-600">
             Already have an account?
             <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Login</a>
         </p>
     </div>
     <script>
-    // Hide messages after 5 seconds
-    setTimeout(() => {
-        document.querySelectorAll('.alert').forEach(alert => alert.style.display = 'none');
-    }, 5000);
-
-    // Toggle password visibility
-    function togglePassword(fieldId, toggleIcon) {
-        const field = document.getElementById(fieldId);
-        const icon = toggleIcon.querySelector('i');
-        if (field.type === 'password') {
-            field.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            field.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
+        // Toggle password visibility
+        function togglePassword(fieldId, toggleIcon) {
+            const field = document.getElementById(fieldId);
+            const icon = toggleIcon.querySelector('i');
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
         }
-    }
     </script>
 {% endblock %}
