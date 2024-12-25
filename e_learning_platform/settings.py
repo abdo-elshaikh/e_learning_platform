@@ -18,8 +18,15 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app',
-                 'abdoelshaikh.pythonanywhere.com', 'https://web-production-0d1c.up.railway.app', '.localhost', '*']
+# ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'abdoelshaikh.pythonanywhere.com']
+# Add your Railway app's URL to the ALLOWED_HOSTS list
+ALLOWED_HOSTS = [
+    'localhost',
+    '.up.railway.app',
+    '.vercel.app',
+    'abdoelshaikh.pythonanywhere.com',
+    '127.0.0.1',
+]
 
 
 # Application definition
