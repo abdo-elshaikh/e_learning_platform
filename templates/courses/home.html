@@ -142,7 +142,7 @@
                 style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
                 <!-- Course Image -->
                 <div class="h-48 bg-cover bg-center"
-                    style="background-image: url('{% static 'images/course-2.jpg' %}')"></div>
+                    style="background-image: url('{% static 'images/course-{{ forloop.counter }}.jpg' %}')"></div>
                 <!-- Course Content -->
                 <div class="p-6">
                     <!-- Bestseller Badge -->
@@ -154,7 +154,7 @@
                     <div class="flex justify-between items-center mt-4">
                         <span class="text-green-600 font-semibold">
                             <i class="fas fa-star text-yellow-500"></i>
-                            {{ course.rating }} ({{ course.num_reviews }} reviews)
+                           {{ forloop.counter|add:21 }} ({{ forloop.counter|add:4 }} reviews)
                         </span>
                         <span class="text-blue-600 font-semibold">${{ course.price }}</span>
                     </div>
