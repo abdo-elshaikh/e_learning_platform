@@ -208,23 +208,8 @@ def add_review(request, course_id):
         return redirect('course_detail', course_id=course_id)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-# Become an Instructor
 
 
-@login_required
-def become_instructor(request, course_id):
-    if request.method == 'POST':
-        course = get_object_or_404(Course, id=course_id)
-        if CourseInstructor.objects.filter(course=course, instructor=request.user).exists():
-            messages.error(
-                request, 'You are already an instructor for this course.')
-        else:
-            CourseInstructor.objects.create(
-                course=course, instructor=request.user)
-            messages.success(
-                request, 'You are now an instructor for this course.')
-        return redirect('course_detail', course_id=course_id)
-    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 # List Instructors
 def instructor_list(request):
@@ -269,9 +254,44 @@ def search_courses(request):
         title__icontains=query) if query else Course.objects.none()
     return render(request, 'courses/search_results.html', {'courses': courses, 'query': query})
 
+# Instructor Dashboard
+@login_required
+def instructor_dashboard(request):
+    # Ensure the user is an instructor
+    if not request.user.is_instructor:
+        messages.error(request, 'You are not an instructor.')
+        return redirect('index')
+    
+    instructor = request.user
+
+    # Get all courses (if needed for the instructor to see all courses)
+    courses = Course.objects.all()
+
+    # Get the courses the instructor is associated with
+    my_courses = CourseInstructor.objects.all().filter(instructor=instructor).select_related('course')
+
+    return render(request, 'instructor/instructor_dashboard.html', {
+        'instructor': instructor,
+        'courses': courses,
+        'my_courses': my_courses
+    })
+
+# Become an Instructor
+@login_required
+def become_instructor(request, course_id):
+    if not request.user.is_instructor:
+        messages.error(request, 'You are not an instructor.')
+        return redirect('index')
+    instructor = request.user
+    course = get_object_or_404(Course, id=course_id)
+    try:
+        CourseInstructor.objects.create(course=course, instructor=instructor)
+        messages.success(request, 'You are now an instructor for this course.')
+    except IntegrityError:
+        messages.error(request, 'You are already an instructor for this course.')
+    return redirect('instructor_dashboard')
+
 # Custom Error Views
-
-
 def error_404(request, exception):
     return render(request, '404.html', status=404)
 

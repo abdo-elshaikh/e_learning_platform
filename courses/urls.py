@@ -28,11 +28,13 @@ urlpatterns = [
 
     # Reviews
     path('courses/<int:course_id>/reviews/add/', views.add_review, name='add_review'),
+    # become instructor
+    path('courses/<int:course_id>/become-instructor/', views.become_instructor, name='become_instructor'),
 
     # Instructors
     path('instructors/', views.instructor_list, name='instructor_list'),
     path('instructors/<int:instructor_id>/', views.instructor_detail, name='instructor_detail'),
-    path('courses/<int:course_id>/become-instructor/', views.become_instructor, name='become_instructor'),
+    path('instructor/dashboard/', views.instructor_dashboard, name='instructor_dashboard'),
 
     # Search
     path('search/', views.search_courses, name='search_courses'),

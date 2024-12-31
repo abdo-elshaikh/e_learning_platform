@@ -1,3 +1,5 @@
+
+
 // Show or hide the menu when the button is clicked
 const menuToggle = document.getElementById('menu-toggle');
 const sidebar = document.getElementById('sidebar');
@@ -12,7 +14,7 @@ toggleBtn.addEventListener('click', () => {
 
 // Close Snackbar
 document.querySelectorAll('.close-snack-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
         this.parentElement.remove();
     });
 });
@@ -98,5 +100,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
+const swiper = new Swiper('.swiper-container', {
+    loop: true,
+    autoplay: {
+        delay: 5000,
+    },
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+        640: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        }
+    }
+});
 
