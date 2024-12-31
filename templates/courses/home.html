@@ -12,7 +12,7 @@
             <p class="text-lg mb-6 max-w-2xl mx-auto">
                 Unlock access to world-class education, curated courses, and personalized learning from anywhere at any
                 time.
-           </p>
+            </p>
             <div class="space-x-4 flex justify-center md:justify-start mb-8">
                 <a href="#courses" aria-label="Get Started"
                     class="bg-blue-700 text-blue-600 border border-blue-700 py-3 px-6 rounded-full hover:bg-blue-800 transition-colors duration-300">
@@ -49,18 +49,20 @@
             <h2 class="text-3xl md:text-4xl font-extrabold text-blue-600 mb-6 animate__animated animate__fadeInLeft">
                 Welcome to Our E-Learning Platform
             </h2>
-            <p class="text-lg text-gray-600 mb-8 max-w-lg animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
+            <p class="text-lg text-gray-600 mb-8 max-w-lg animate__animated animate__fadeInLeft"
+                style="animation-delay: 0.2s;">
                 Your gateway to knowledge and learning anytime, anywhere. Whether you're a student, a professional, or a
                 lifelong learner, we have something for everyone.
             </p>
             <a href="#courses" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium shadow-lg 
-                hover:bg-blue-700 transition duration-300 animate__animated animate__fadeInLeft" 
+                hover:bg-blue-700 transition duration-300 animate__animated animate__fadeInLeft"
                 style="animation-delay: 0.4s;">Explore Courses</a>
         </div>
 
         <!-- Right Side: Mission and Benefits -->
         <div class="space-y-8">
-            <div class="bg-white shadow-md rounded-lg p-6 animate__animated animate__fadeInRight" style="animation-delay: 0.4s;">
+            <div class="bg-white shadow-md rounded-lg p-6 animate__animated animate__fadeInRight"
+                style="animation-delay: 0.4s;">
                 <h3 class="text-2xl font-bold text-blue-600 mb-4">Our Mission</h3>
                 <p class="text-gray-700">
                     Our mission is to empower learners to unlock their full potential by providing a wide range of
@@ -68,7 +70,8 @@
                     matter where they are or what their background is.
                 </p>
             </div>
-            <div class="bg-white mt-4 shadow-md rounded-lg p-6 animate__animated animate__fadeInRight" style="animation-delay: 0.6s;">
+            <div class="bg-white mt-4 shadow-md rounded-lg p-6 animate__animated animate__fadeInRight"
+                style="animation-delay: 0.6s;">
                 <h3 class="text-2xl font-bold text-blue-600 mb-4">Why Choose Us</h3>
                 <ul class="list-disc pl-6 text-gray-700">
                     <li class="mb-2">- Wide selection of courses from top instructors</li>
@@ -89,14 +92,14 @@
         <h2 class="text-3xl md:text-4xl font-extrabold text-blue-600 mb-12 animate__animated animate__fadeInUp">
             Explore Our Categories
         </h2>
-        <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+        <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto animate__animated animate__fadeInUp"
+            style="animation-delay: 0.2s;">
             Choose from a wide range of categories and find the perfect course to help you achieve your learning goals.
         </p>
         <!-- Categories Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {% for category in categories %}
-            <div
-                class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-gray-50 animate__animated animate__fadeInUp"
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-gray-50 animate__animated animate__fadeInUp"
                 style="animation-delay: 0.2s;">
                 <a href="{% url 'category_detail' category.id %}">
                     <i class="fa fa-book text-4xl text-blue-600 mb-4"></i>
@@ -127,15 +130,15 @@
             Popular Courses
         </h2>
         <!-- Section Description -->
-        <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+        <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto animate__animated animate__fadeInUp"
+            style="animation-delay: 0.2s;">
             Discover the most popular courses, handpicked for their quality and ability to help you achieve your
             learning goals.
         </p>
         <!-- Courses Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {% for course in courses %}
-            <div
-                class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-gray-50 animate__animated animate__fadeInUp"
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-gray-50 animate__animated animate__fadeInUp"
                 style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
                 <!-- Course Image -->
                 <div class="h-48 bg-cover bg-center"
@@ -185,49 +188,62 @@
 <section id="instructors" class="py-16 px-6 bg-gray-50">
     <div class="container mx-auto text-center">
         <!-- Section Title -->
-        <div class="mb-12 animate__animated animate__fadeInDown">
-            <h1 class="mt-4 text-4xl font-extrabold text-gray-800 leading-tight">Meet Our Expert Instructors</h1>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
+        <div class="mb-12">
+            <h2 class="text-4xl font-extrabold text-gray-800 leading-tight animate__animated animate__fadeInDown">
+                Meet Our Expert Instructors
+            </h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4 animate__animated animate__fadeInDown"
+                style="animation-delay: 0.2s;">
                 Learn from industry experts who bring real-world experience and knowledge to the courses they teach.
             </p>
         </div>
 
         <!-- Instructors Grid -->
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {% for instructor in instructors %}
-            <div
-                class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl animate__animated animate__fadeInUp"
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl animate__animated animate__fadeInUp"
                 style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
                 <!-- Instructor Image -->
                 <div class="relative overflow-hidden">
                     <img class="w-full h-56 object-cover"
-                        src="{% if instructor.profile.profile_picture %}{{ instructor.profile.profile_picture.url }}{% else %}{% static 'images/team-2.jpg' %}{% endif %}"
-                        alt="Instructor Image">
+                        src="{% if instructor.profile.profile_picture %}{{ instructor.profile.profile_picture.url }}{% else %}{% static 'images/team-' %}{{ forloop.counter }}.jpg{% endif %}"
+                        alt="Profile picture of {{ instructor.username }}">
+
+
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 hover:opacity-100 flex flex-col items-center justify-center transition-all duration-300 space-y-3">
-                        <h5 class="text-white font-semibold text-lg">{{ instructor.username }}</h5>
+                        <h3 class="text-white font-semibold text-lg">{{ instructor.username }}</h3>
                         <p class="text-sm text-gray-200">{{ instructor.title }}</p>
                         <div class="flex space-x-4">
-                            <a href="#" class="text-white text-2xl hover:text-gray-300 transition duration-200">
+                            {% if instructor.profile.facebook %}
+                            <a href="{{ instructor.profile.facebook }}" target="_blank"
+                                class="text-white text-2xl hover:text-gray-300 transition duration-200">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#" class="text-white text-2xl hover:text-gray-300 transition duration-200">
+                            {% endif %}
+                            {% if instructor.profile.twitter %}
+                            <a href="{{ instructor.profile.twitter }}" target="_blank"
+                                class="text-white text-2xl hover:text-gray-300 transition duration-200">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#" class="text-white text-2xl hover:text-gray-300 transition duration-200">
+                            {% endif %}
+                            {% if instructor.profile.instagram %}
+                            <a href="{{ instructor.profile.instagram }}" target="_blank"
+                                class="text-white text-2xl hover:text-gray-300 transition duration-200">
                                 <i class="fab fa-instagram"></i>
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
 
                 <!-- Instructor Info -->
                 <div class="p-6 text-center">
-                    <h5 class="text-lg font-semibold text-gray-800 hover:text-blue-600">
+                    <h3 class="text-lg font-semibold text-gray-800 hover:text-blue-600">
                         <a href="{% url 'instructor_detail' instructor.id %}" class="transition duration-300">
                             {{ instructor.username }}
                         </a>
-                    </h5>
+                    </h3>
                     <p class="text-sm text-gray-600 mt-2">{{ instructor.title }}</p>
                     <p class="mt-2 text-sm text-gray-500">{{ instructor.expertise }}</p>
                 </div>
@@ -236,6 +252,7 @@
         </div>
     </div>
 </section>
+
 
 
 <!-- Testimonials Section -->
