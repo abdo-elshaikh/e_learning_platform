@@ -166,10 +166,6 @@ class UserForm(forms.ModelForm):
         is_active = cleaned_data.get('is_active')
         is_staff = cleaned_data.get('is_staff')
         is_superuser = cleaned_data.get('is_superuser')
-
-        if not first_name or not last_name or not email or not is_instructor or not is_student or not is_active or not is_staff or not is_superuser:
-            raise forms.ValidationError('All fields are required')
-
         return cleaned_data
 
     def save(self, commit=True):

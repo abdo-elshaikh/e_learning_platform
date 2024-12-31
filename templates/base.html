@@ -9,76 +9,59 @@
             {% block title %}{% endblock %}
         </title>
         <!-- Favicon -->
-        <link rel="shortcut icon"
-              href="{% static 'images/elearning.ico' %}"
-              type="image/x-icon">
+        <link rel="shortcut icon" href="{% static 'images/elearning.ico' %}" type="image/x-icon">
+        
         <!-- Tailwind CSS -->
         <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
-
+        
         <!-- Font Awesome -->
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
         <!-- SwiperJS CSS -->
-        <link rel="stylesheet"
-              href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-        <!-- SwiperJS JavaScript -->
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+        
         <!-- Custom CSS -->
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
     </head>
     <body class="bg-gray-50 text-gray-800">
         <!-- Header -->
-        <header class="bg-gray-700  text-white fixed top-0 w-full z-10">
+        <header class="bg-gray-700 text-white fixed top-0 w-full z-10 shadow-lg">
             <nav class="container mx-auto flex items-center justify-between py-4 px-6">
                 <!-- Logo -->
                 <div class="flex items-center space-x-4">
-                    <a href="{% url 'index' %}"
-                       class="text-2xl font-bold flex items-center space-x-2">
+                    <a href="{% url 'index' %}" class="text-2xl font-bold flex items-center space-x-2">
                         <i class="fas fa-graduation-cap"></i>
                         <h1 class="text-2xl font-bold">E_Learning</h1>
                     </a>
                 </div>
                 <!-- Navigation Links -->
-                <ul class="hidden md:flex space-x-4 font-medium text-sm text-white uppercase tracking-wider ">
-                    <li>
-                        <a href="{% url 'index' %}" class="hover:text-blue-500">Home</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-blue-500">About</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'course_list' %}" class="hover:text-blue-500">Courses</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'category_list' %}" class="hover:text-blue-500">Categories</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-blue-500">Instructors</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-blue-500">Testimonials</a>
-                    </li>
+                <ul class="hidden md:flex space-x-4 font-medium text-sm text-white uppercase tracking-wider">
+                    <li><a href="{% url 'index' %}" class="hover:text-blue-500">Home</a></li>
+                    <li><a href="{% url 'about' %}" class="hover:text-blue-500">About</a></li>
+                    <li><a href="{% url 'category_list' %}" class="hover:text-blue-500">Categories</a></li>
+                    <li><a href="{% url 'course_list' %}" class="hover:text-blue-500">Courses</a></li>
+                    <li><a href="{% url 'instructor_list' %}" class="hover:text-blue-500">Instructors</a></li>
                 </ul>
                 <!-- Auth Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
                     {% if user.is_authenticated %}
                         {% if user.is_superuser %}
-                            <button class="dashboard-btn bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md">
+                            <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md">
                                 <a href="{% url 'dashboard:dashboard_home' %}">Dashboard</a>
                             </button>
                         {% else %}
-                            <button class="enrollments-btn bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md">
+                            <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md">
                                 <a href="{% url 'my_enrollments' %}">Enrollments</a>
                             </button>
                         {% endif %}
-                        <button class="logout-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md">
+                        <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md">
                             <a href="{% url 'logout' %}">Logout</a>
                         </button>
                     {% else %}
-                        <button class="login-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md">
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md">
                             <a href="{% url 'login' %}">Login</a>
                         </button>
-                        <button class="register-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md">
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md">
                             <a href="{% url 'register' %}">Register</a>
                         </button>
                     {% endif %}
@@ -88,65 +71,43 @@
                     <i class="fa fa-bars"></i>
                 </button>
             </nav>
+            
             <!-- Mobile Navigation Menu -->
             <div id="toggle-menu" class="bg-gray-700 shadow-md md:hidden hidden">
                 <ul class="flex flex-col space-y-4 px-6 py-4 text-sm font-medium">
-                    <li>
-                        <a href="{% url 'index' %}" class="hover:text-blue-600"><i class="fas fa-home mr-2"></i>Home</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-blue-600"><i class="fas fa-info-circle mr-2"></i>About</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'category_list' %}" class="hover:text-blue-600"><i class="fas fa-book mr-2"></i>Courses</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'course_list' %}" class="hover:text-blue-600"><i class="fas fa-th mr-2"></i>Categories</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-blue-600"><i class="fas fa-user-tie mr-2"></i>Instructors</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-blue-600"><i class="fas fa-comment mr-2"></i>Testimonials</a>
-                    </li>
+                    <li><a href="{% url 'index' %}" class="hover:text-blue-600"><i class="fas fa-home mr-2"></i>Home</a></li>
+                    <li><a href="{% url 'about' %}" class="hover:text-blue-600"><i class="fas fa-info-circle mr-2"></i>About</a></li>
+                    <li><a href="{% url 'category_list' %}" class="hover:text-blue-600"><i class="fas fa-book mr-2"></i>Courses</a></li>
+                    <li><a href="{% url 'course_list' %}" class="hover:text-blue-600"><i class="fas fa-th mr-2"></i>Categories</a></li>
+                    <li><a href="{% url 'instructor_list' %}" class="hover:text-blue-600"><i class="fas fa-user-tie mr-2"></i>Instructors</a></li>
                     <hr class="my-4">
                     <!-- Auth Links -->
                     {% if user.is_authenticated %}
                         {% if user.is_superuser %}
-                            <li class="dashboard-btn">
-                                <a href="{% url 'dashboard:dashboard_home' %}"
-                                   class="hover:text-blue-600"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
-                            </li>
+                            <li><a href="{% url 'dashboard:dashboard_home' %}" class="hover:text-blue-600"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
                         {% else %}
-                            <li class="enrollments-btn">
-                                <a href="{% url 'my_enrollments' %}" class="hover:text-blue-600"><i class="fas fa-graduation-cap mr-2"></i>Enrollments</a>
-                            </li>
+                            <li><a href="{% url 'my_enrollments' %}" class="hover:text-blue-600"><i class="fas fa-graduation-cap mr-2"></i>Enrollments</a></li>
                         {% endif %}
-                        <li class="logout-btn">
-                            <a href="{% url 'logout' %}" class="hover:text-blutext-blue-600"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
-                        </li>
+                        <li><a href="{% url 'logout' %}" class="hover:text-blue-600"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
                     {% else %}
-                        <li class="login-btn">
-                            <a href="{% url 'login' %}" class="hover:text-blutext-blue-600"><i class="fas fa-sign-in-alt mr-2"></i>Login</a>
-                        </li>
-                        <li class="register-btn">
-                            <a href="{% url 'register' %}" class="hover:text-blutext-blue-600"><i class="fas fa-user-plus mr-2"></i>Register</a>
-                        </li>
+                        <li><a href="{% url 'login' %}" class="hover:text-blue-600"><i class="fas fa-sign-in-alt mr-2"></i>Login</a></li>
+                        <li><a href="{% url 'register' %}" class="hover:text-blue-600"><i class="fas fa-user-plus mr-2"></i>Register</a></li>
                     {% endif %}
                 </ul>
             </div>
         </header>
+
         <main class="mt-16">
             {% block content %}{% endblock %}
         </main>
+
         <!-- Back to Top Button -->
-        <div class="back-to-top hidden fixed bottom-4 right-4">
-            <a aria-label="Back to Top"
-               title="Back to Top"
-               class="bg-blue-600 hover:bg-blue-800 text-white py-3 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+        <div class="back-to-top hidden fixed bottom-4 right-4" onclick="scrollToTop">
+            <a aria-label="Back to Top" title="Back to Top" class="bg-blue-600 hover:bg-blue-800 text-white py-3 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                 <i class="fas fa-arrow-up"></i>
             </a>
         </div>
+
         <!-- Footer -->
         <footer class="bg-gray-800 text-gray-300">
             <div class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -154,45 +115,27 @@
                 <div>
                     <h4 class="text-white text-lg font-bold mb-4">E_Learning</h4>
                     <ul class="space-y-2">
-                        <li>
-                            <a href="#" class="hover:text-blue-600">About Us</a>
-                        </li>
-                        <li>
-                            <a href="#courses" class="hover:text-blue-600">Courses</a>
-                        </li>
-                        <li>
-                            <a href="#testimonials" class="hover:text-blue-600">Testimonials</a>
-                        </li>
+                        <li><a href="#" class="hover:text-blue-600">About Us</a></li>
+                        <li><a href="#courses" class="hover:text-blue-600">Courses</a></li>
+                        <li><a href="#testimonials" class="hover:text-blue-600">Testimonials</a></li>
                     </ul>
                 </div>
                 <!-- Column 2 -->
                 <div>
                     <h4 class="text-white text-lg font-bold mb-4">Resources</h4>
                     <ul class="space-y-2">
-                        <li>
-                            <a href="#" class="hover:text-blue-600">Blog</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-600">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-600">Contact</a>
-                        </li>
+                        <li><a href="#" class="hover:text-blue-600">Blog</a></li>
+                        <li><a href="#" class="hover:text-blue-600">FAQ</a></li>
+                        <li><a href="#" class="hover:text-blue-600">Contact</a></li>
                     </ul>
                 </div>
                 <!-- Column 3 -->
                 <div>
                     <h4 class="text-white text-lg font-bold mb-4">Connect with Us</h4>
                     <ul class="space-y-2">
-                        <li>
-                            <a href="#" class="hover:text-blue-600"><i class="fab fa-facebook-f mr-2"></i>Facebook</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-600"><i class="fab fa-twitter mr-2"></i>Twitter</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-600"><i class="fab fa-instagram mr-2"></i>Instagram</a>
-                        </li>
+                        <li><a href="#" class="hover:text-blue-600"><i class="fab fa-facebook-f mr-2"></i>Facebook</a></li>
+                        <li><a href="#" class="hover:text-blue-600"><i class="fab fa-twitter mr-2"></i>Twitter</a></li>
+                        <li><a href="#" class="hover:text-blue-600"><i class="fab fa-instagram mr-2"></i>Instagram</a></li>
                     </ul>
                 </div>
             </div>
@@ -200,8 +143,9 @@
                 <p>&copy; 2024 E_Learning. All rights reserved.</p>
             </div>
         </footer>
-        <!-- messages snackbar notification-->
-        <div class="snackbar-container fixed right-3 top-10 z-20 w-auto p-4 rounded-lg shadow-lg transition-all duration-300">
+
+        <!-- Messages Snackbar Notification -->
+        <div class="snackbar-container fixed top-16 right-3 z-20 w-auto p-4 rounded-lg shadow-lg transition-all duration-300">
             {% if messages %}
                 {% for message in messages %}
                     <div class="snackbar text-white p-4 rounded-lg shadow-lg mb-2 {{ message.tags }} flex justify-between items-center w-96 transition-all duration-300 gap-2">
@@ -212,32 +156,11 @@
                 {% endfor %}
             {% endif %}
         </div>
+
         <!-- JavaScript -->
         <script src="{% static 'js/main.js' %}"></script>
         <script>
-            // snackbar close button
-            const closeBtns = document.querySelectorAll('.close-snack-btn');
-                    
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const snackbar = e.target.closest('.snackbar');
-                    snackbar.style.opacity = '0';
-                    setTimeout(() => {
-                        snackbar.remove();
-                    }, 300);
-                });
-            });
             
-            // Timer to hide snackbar automatically
-            setTimeout(() => {
-                const snackbars = document.querySelectorAll('.snackbar');
-                snackbars.forEach(snackbar => {
-                    snackbar.style.opacity = '0';
-                    setTimeout(() => {
-                        snackbar.remove();
-                    }, 300);
-                });
-            }, 5000);
         </script>
     </body>
 </html>

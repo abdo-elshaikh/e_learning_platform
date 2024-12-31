@@ -1,74 +1,131 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}
-    e-Learning | {{ course.title }}
-{% endblock title %}
-
 {% block content %}
-<!-- Course Detail Section -->
-<section id="course-detail" class="py-40">
-    <div class="max-w-7xl mx-auto">
-        <!-- Course Title and Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-blue-600">{{ course.title }}</h1>
-            <p class="text-lg text-gray-600 mt-2">{{ course.description }}</p>
-            <div class="flex justify-center mt-4 space-x-8">
-                <span class="text-green-600 font-semibold">{{ course.rating }} ★</span>
-                <span class="text-blue-600 font-semibold">${{ course.price }}</span>
-            </div>
-        </div>
+    <div class="container mx-auto p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Left Side: Course Details -->
+            <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
+                <!-- Course Image -->
+                <div class="mb-6">
+                    {% if course.image %}
+                        <img src="{{ course.image }}" alt="{{ course.title }}" class="w-full h-64 object-cover rounded-lg">
+                    {% else %}
+                        <img src="{% static 'images/course-2.jpg' %}" alt="Default Image" class="w-full h-64 object-cover rounded-lg">
+                    {% endif %}
+                </div>
 
-        <!-- Course Details Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <!-- Course Image -->
-            <div class="relative rounded-lg shadow-lg">
-                <img src="{% static 'images/course-1.jpg' %}" alt="Course Image" class="w-full h-72 object-cover rounded-t-lg">
-            </div>
+                <!-- Course Title and Description -->
+                <div>
+                    <h1 class="text-3xl font-semibold text-gray-800">{{ course.title }}</h1>
+                    <p class="text-gray-600 mt-2">{{ course.description }}</p>
+                </div>
 
-            <!-- Course Description and Enroll Button -->
-            <div class="bg-white p-8 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold text-blue-600 mb-4">Course Overview</h2>
-                <p class="text-gray-600 mb-6">{{ course.long_description }}</p>
-                
-                <h3 class="text-xl font-semibold text-blue-600 mb-4">Instructor</h3>
-                <p class="text-gray-600 mb-4">Instructor: {{ course.instructor }}</p>
-                <p class="text-gray-600 mb-6">{{ course.instructor_bio }}</p>
+                <!-- Course Meta Information -->
+                <div class="flex items-center space-x-4 text-sm text-gray-500 mt-6">
+                    <span>Category: {{ course.category.name }}</span>
+                    <span>Rating: {{ course.rating|default:0 }}/5</span>
+                    <span>Lessons: {{ course.lesson_set.count }}</span>
+                </div>
 
-                <div class="mt-8 text-center">
-                    <a href="{% url 'enroll_in_course' course.id %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg shadow transition duration-300">
-                        Enroll Now
-                    </a>
+                <!-- Enrollment Actions -->
+                <div class="mt-6">
+                    {% if is_authenticated %}
+                        {% if is_enrolled %}
+                            <!-- Drop Course Button -->
+                            <form method="post" action="{% url 'drop_course' enrollment.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                                    Drop Course
+                                </button>
+                            </form>
+                            {% if all_lessons_completed %}
+                                <!-- Review Form -->
+                                <form method="post" action="{% url 'add_review' course.id %}" class="mt-4">
+                                    {% csrf_token %}
+                                    <textarea name="review" class="w-full border rounded p-2" rows="3" placeholder="Leave a review"></textarea>
+                                    <div class="mt-2">
+                                        <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
+                                        <select name="rating" class="border rounded w-full py-2 px-3">
+                                            {% for i in "12345" %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                                        Submit Review
+                                    </button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <!-- Enroll in Course Button -->
+                            <form method="post" action="{% url 'enroll_in_course' course.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                                    Enroll in Course
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-red-500">
+                            Please <a href="{% url 'login' %}" class="text-blue-500 underline">login</a> to enroll or comment.
+                        </p>
+                    {% endif %}
                 </div>
             </div>
-        </div>
-        
-        <!-- Course Curriculum -->
-         <div class="mt-12">
-            <h2 class="text-2xl font-semibold text-blue-600 mb-4">Course Curriculum</h2>
-            <ul class="space-y-4">
-                <li class="flex justify-between items-center">
-                    <span class="text-gray-600">1. Introduction to the Course</span>
-                    <span class="text-blue-600">10 min</span>
-                </li>
-                <li class="flex justify-between items-center">
-                    <span class="text-gray-600">2. Course Overview</span>
-                    <span class="text-blue-600">20 min</span>
-                </li>
-                <li class="flex justify-between items-center">
-                    <span class="text-gray-600">3. Course Content</span>
-                    <span class="text-blue-600">30 min</span>
-                </li>
-                <li class="flex justify-between items-center">
-                    <span class="text-gray-600">4. Course Quiz</span>
-                    <span class="text-blue-600">40 min</span>
-                </li>
-                <li class="flex justify-between items-center">
-                    <span class="text-gray-600">5. Course Assignment</span>
-                    <span class="text-blue-600">50 min</span>
-                </li>
 
+            <!-- Right Side: Lessons List -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Lessons</h2>
+                <ul class="divide-y divide-gray-200">
+                    {% for lesson in lessons %}
+                        <li class="py-4 flex justify-between items-center {% if lesson.completed %} bg-green-100 {% endif %}">
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">{{ lesson.title }}</h3>
+                                <p class="text-sm text-gray-500">{{ lesson.description }}</p>
+                            </div>
+                            {% if lesson in lessons %}
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'lesson_detail' course.id lesson.id %}" class="text-blue-500 hover:underline">View Lesson</a>
+                            {% else %}
+                                <span class="text-gray-400">Enroll to access</span>
+                            {% endif %}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Comments</h2>
+            <ul class="divide-y divide-gray-200 mb-4">
+                {% for comment in course.comment_set.all %}
+                    <li class="py-4">
+                        <p class="text-gray-600">
+                            <span class="font-medium">{{ comment.student.username }}</span>: {{ comment.comment }}
+                        </p>
+                    </li>
+                {% endfor %}
+                {% if not course.comment_set.exists %}
+                    <li class="py-4 text-gray-500">No comments yet. Be the first to comment!</li>
+                {% endif %}
             </ul>
+
+            <!-- Comment Form -->
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'add_comment' course.id %}">
+                    {% csrf_token %}
+                    <textarea name="comment" class="w-full border rounded p-2" rows="3" placeholder="Add a comment"></textarea>
+                    <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                        Submit Comment
+                    </button>
+                </form>
+            {% else %}
+                <p class="text-red-500">
+                    Please <a href="{% url 'login' %}" class="text-blue-500 underline">login</a> to comment.
+                </p>
+            {% endif %}
         </div>
     </div>
-</section>
-{% endblock content %}
+{% endblock %}

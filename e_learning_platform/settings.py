@@ -98,9 +98,9 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'users.validators.CustomPasswordValidator',
-    }
+    # {
+    #     'NAME': 'users.validators.CustomPasswordValidator',
+    # }
 ]
 
 # Messages settings
@@ -144,8 +144,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Authentication URLs
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGOUT_REDIRECT_URL = '/users/login/'
-LOGIN_REDIRECT_URL = '/'
+
+# Login and logout URLs
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

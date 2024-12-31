@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ instructor.username }} - Instructor Detail
+{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<header class="bg-gradient-to-r from-blue-500 to-indigo-600 text-black py-16">
+    <div class="container mx-auto text-center">
+        <h1 class="text-5xl font-extrabold">{{ instructor.username }}</h1>
+        <p class="text-lg mt-2">{{ instructor.title }}</p>
+    </div>
+</header>
+<hr class="my-8">
+
+<!-- Main Content -->
+<main class="container mx-auto my-12 px-6 mb-6">
+    <!-- About Instructor Section -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6">About {{ instructor.username }}</h2>
+        <p class="text-lg text-gray-700 leading-relaxed">{{ instructor.bio }}</p>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Courses by {{ instructor.username }}</h2>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {% for course in courses %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <!-- Course Image -->
+                <img 
+                    class="w-full h-56 object-cover" 
+                    src="{{ course.image }}" 
+                    alt="{{ course.title }}">
+                <!-- Course Info -->
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 hover:text-indigo-600">
+                        <a href="{% url 'course_detail' course.id %}">{{ course.title }}</a>
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-2">
+                        {{ course.description|truncatewords:20 }}
+                    </p>
+                    <div class="mt-4 flex items-center justify-between">
+                        <span class="text-sm text-gray-500">Enrolled: {{ course.enrollments_count }}</span>
+                        <a 
+                            href="{% url 'course_detail' course.id %}" 
+                            class="text-sm text-indigo-600 hover:underline">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-gray-500">No courses available for this instructor.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Enrollment Statistics Section -->
+    <section>
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Enrollment Statistics</h2>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="bg-white shadow-lg rounded-lg p-8 text-center transform hover:scale-105 transition-all duration-300">
+                <h3 class="text-lg font-semibold text-gray-800">Total Enrollments</h3>
+                <p class="text-4xl font-bold text-indigo-600">{{ total_enrollments }}</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 text-center transform hover:scale-105 transition-all duration-300">
+                <h3 class="text-lg font-semibold text-gray-800">Active Courses</h3>
+                <p class="text-4xl font-bold text-indigo-600">{{ active_courses }}</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 text-center transform hover:scale-105 transition-all duration-300">
+                <h3 class="text-lg font-semibold text-gray-800">Highest Enrollment</h3>
+                <p class="text-4xl font-bold text-indigo-600">{{ highest_enrollment.enrollment_count }}</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 text-center transform hover:scale-105 transition-all duration-300">
+                <h3 class="text-lg font-semibold text-gray-800">Average Enrollment</h3>
+                <p class="text-4xl font-bold text-indigo-600">{{ average_enrollment }}</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock content %}

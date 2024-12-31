@@ -5,12 +5,11 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 # validation imports
 from django.core import validators, exceptions, checks, signing, mail
+from django.contrib.auth import authenticate
 
 
 # Get the custom user model
 CustomUser = get_user_model()
-
-# Login Form
 
 
 class LoginForm(AuthenticationForm):
@@ -19,50 +18,46 @@ class LoginForm(AuthenticationForm):
             attrs={
                 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
                 'placeholder': 'Username',
-                'autofocus': 'autofocus',
-                'required': 'required',
-                'autocomplete': 'username',
-                'type': 'text'
-            }),
-        label='Username'
+            }
+        ),
+        label='Username',
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
                 'placeholder': 'Password',
-                'required': 'required',
-                'autocomplete': 'current-password',
-                'type': 'password'
-            }),
-        label='Password'
+            }
+        ),
+        label='Password',
     )
 
-    def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args, **kwargs)
-        self.fields['username'].validators = [
-            validators.MaxLengthValidator(150)]
-        self.fields['password'].validators = [validators.MinLengthValidator(3)]
-        self.fields['username'].error_messages = {
-            'required': 'This field is required'}
-        self.fields['password'].error_messages = {
-            'required': 'This field is required'}
-
-    # data validation methods
-
     def clean(self):
-        cleaned_data = super().clean()
-        username = cleaned_data.get('username')
-        password = cleaned_data.get('password')
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
 
-        if not CustomUser.objects.filter(username=username).exists():
-            raise forms.ValidationError('User does not exist.')
+        if not username or not password:
+            raise forms.ValidationError(
+                "Both username and password are required.")
 
-        user = CustomUser.objects.get(username=username)
-        if not user.check_password(password):
-            raise forms.ValidationError('Invalid password.')
+        # Retrieve the user to check if it exists and is active
+        try:
+            User = get_user_model()
+            user = User.objects.get(username=username)
+            if not user.is_active:
+                raise forms.ValidationError(
+                    "This account is inactive. Please contact the admin.")
+        except User.DoesNotExist:
+            raise forms.ValidationError(
+                "Invalid username or password, or account does not exist.")
 
-        return cleaned_data
+        # Authenticate the user after verifying the account's existence and status
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise forms.ValidationError("Invalid username or password.")
+
+        self.user_cache = user
+        return self.cleaned_data
 
 # Registration Form
 
@@ -73,7 +68,6 @@ class RegisterForm(UserCreationForm):
             attrs={
                 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
                 'placeholder': 'Username',
-                'type': 'text'
             }),
         label='Username'
     )
@@ -82,18 +76,15 @@ class RegisterForm(UserCreationForm):
             attrs={
                 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
                 'placeholder': 'Email (optional)',
-                'type': 'email'
             }),
         label='Email',
-        required=False,
+        required=False
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
                 'placeholder': 'Password',
-                'type': 'password',
-                'id': 'id_password1'
             }),
         label='Password'
     )
@@ -102,93 +93,58 @@ class RegisterForm(UserCreationForm):
             attrs={
                 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
                 'placeholder': 'Confirm Password',
-                'type': 'password',
-                'id': 'id_password2'
             }),
         label='Confirm Password'
     )
-
-    is_instructor = forms.BooleanField(
-        widget=forms.CheckboxInput(
-            attrs={
-                'class': 'form-check-input',
-                'type': 'checkbox'
-            }),
-        label='Instructor',
-        required=False
-    )
-
-    is_student = forms.BooleanField(
-        widget=forms.CheckboxInput(
-            attrs={
-                'class': 'form-check-input',
-                'type': 'checkbox'
-            }),
-        label='Student',
-        required=False
-    )
-
     role = forms.ChoiceField(
-        widget=forms.Select(
+        widget=forms.RadioSelect(
             attrs={
-                'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
-                'placeholder': 'Role',
-                'type': 'text'
+                'class': 'form-radio mt-1 block'
             }),
         label='Role',
-        choices=[('instructor', 'Instructor'), ('student', 'Student')]
+        choices=[('instructor', 'Instructor'), ('student', 'Student')],
+        initial='student'
     )
 
-    def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
-        self.fields['username'].validators = [
-            validators.MaxLengthValidator(150)]
-        self.fields['password1'].validators = [
-            validators.MinLengthValidator(3)]
-        self.fields['password2'].validators = [
-            validators.MinLengthValidator(3)]
-        self.fields['username'].error_messages = {
-            'required': 'This field is required'}
-        self.fields['password1'].error_messages = {
-            'required': 'This field is required'}
-        self.fields['password2'].error_messages = {
-            'required': 'This field is required'}
-
-    # data validation methods
     def clean(self):
         cleaned_data = super().clean()
-        print('cleaning data :', cleaned_data)
+        print('cleaned_data: ', cleaned_data)
+        username = cleaned_data.get('username')
+        email = cleaned_data.get('email')
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
         role = cleaned_data.get('role')
-        username = cleaned_data.get('username')
-        email = cleaned_data.get('email')
-
-        if password1 and password2:
-            if password1 != password2:
-                raise forms.ValidationError('Passwords do not match')
 
         if CustomUser.objects.filter(username=username).exists():
-            raise forms.ValidationError('This username is already in use.')
-
+            raise forms.ValidationError('Username already exists.')
         if email and CustomUser.objects.filter(email=email).exists():
-            raise forms.ValidationError('This email is already in use.')
-
-        if role == 'instructor':
-            cleaned_data['is_instructor'] = True
-            cleaned_data['is_student'] = False
-        elif role == 'student':
-            cleaned_data['is_instructor'] = False
-            cleaned_data['is_student'] = True
-        else:
-            raise forms.ValidationError('Please select a role.')
-
+            raise forms.ValidationError('Email already exists.')
+        if password1 != password2:
+            raise forms.ValidationError('Passwords do not match.')
+        if username == password1:
+            raise forms.ValidationError(
+                'Password should not be the same as username.')
+        if not role:
+            raise forms.ValidationError('Role is required.')
         return cleaned_data
+
+    def save(self, commit=True, role=None):
+        if role is None:
+            raise ValueError('Role is required.')
+        else:
+            if role == 'instructor':
+                self.instance.is_instructor = True
+                self.instance.is_student = False
+                self.instance.is_active = False
+            else:
+                self.instance.is_student = True
+                self.instance.is_instructor = False
+                self.instance.is_active = True
+        return super().save(commit=commit)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password1',
-                  'password2', 'is_instructor', 'is_student']
+        fields = ['username', 'email', 'password1', 'password2', 'role']
 
 # Password Reset Form
 

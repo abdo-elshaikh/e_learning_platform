@@ -1,15 +1,21 @@
-// Live Server: http://127.0.0.1:8000/
-
-// menu toggle button
+// Show or hide the menu when the button is clicked
+const menuToggle = document.getElementById('menu-toggle');
+const sidebar = document.getElementById('sidebar');
+// Mobile Navigation Toggle
 const toggleBtn = document.getElementById('toggle-btn');
 const toggleMenu = document.getElementById('toggle-menu');
+toggleBtn.addEventListener('click', () => {
+    toggleMenu.classList.toggle('hidden');
+});
 
-// Show or hide the menu when the button is clicked
-if (toggleBtn && toggleMenu) {
-    toggleBtn.addEventListener('click', () => {
-        toggleMenu.classList.toggle('hidden');
+
+
+// Close Snackbar
+document.querySelectorAll('.close-snack-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        this.parentElement.remove();
     });
-}
+});
 
 // Scroll to Categories Section
 const categoryBtn = document.getElementById('category-btn');

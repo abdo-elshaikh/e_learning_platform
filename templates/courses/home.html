@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}e_Learning | Home{% endblock %}
+{% block title %}e_Learning - Home{% endblock title %}
 {% block content %}
     <!-- Hero Section -->
     <section id="home"
              class="hero relative bg-cover bg-center h-screen"
-             style="background-image: url('{% static 'images/close-up-student-online-class.jpg' %}')">
+             style="background-image: url('{% static 'images/bg-hero.jpg' %}')">
         <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-center text-white p-4">
             <!-- Hero Title -->
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight animate__animated animate__fadeInDown">
                 Transform Your Future
-                <br>
+                <br />
                 With Online Learning
             </h1>
             <!-- Hero Subtitle -->
@@ -120,7 +120,7 @@
             </div>
         </div>
     </section>
-    <!-- Popular Courses Section -->
+    <!-- Courses Section -->
     <section id="courses" class="py-16 px-6 bg-white">
         <div class="max-w-7xl mx-auto text-center">
             <h2 class="text-3xl md:text-4xl font-extrabold text-blue-600 mb-12">Popular Courses</h2>
@@ -164,6 +164,60 @@
             </div>
         </div>
     </section>
+
+   <!-- Instructors Section -->
+<section id="instructors" class="py-16 bg-gray-50">
+    <div class="container mx-auto text-center">
+        <!-- Section Title -->
+        <div class="mb-12">
+            <h1 class="mt-4 text-4xl font-extrabold text-gray-800 leading-tight">Meet Our Expert Instructors</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Learn from industry experts who bring real-world experience and knowledge to the courses they teach.
+            </p>
+        </div>
+
+        <!-- Instructors Grid -->
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+            {% for instructor in instructors %}
+            <div class="bg-white rounded-lg shadow-lg transform hover:-translate-y-2 transition-all duration-300 hover:shadow-2xl">
+                <!-- Instructor Image -->
+                <div class="relative overflow-hidden rounded-t-lg">
+                    <img 
+                        class="w-full h-56 object-cover rounded-t-lg"
+                        src="{% static 'images/team-1.jpg' %}" 
+                        alt="Instructor Image">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex items-center justify-center transition-all duration-300">
+                        <div class="space-x-4">
+                            <a href="#" class="text-white text-xl hover:text-gray-300 transition duration-200">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="text-white text-xl hover:text-gray-300 transition duration-200">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-white text-xl hover:text-gray-300 transition duration-200">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructor Info -->
+                <div class="p-6 text-center">
+                    <h5 class="text-lg font-semibold text-gray-800 hover:text-primary">
+                        <a href="{% url 'instructor_detail' instructor.id %}" class="transition duration-300 hover:text-primary">
+                            {{ instructor.username }}
+                        </a>
+                    </h5>
+                    <p class="text-sm text-gray-600">{{ instructor.title }}</p>
+                    <p class="mt-2 text-sm text-gray-500">{{ instructor.expertise }}</p> <!-- Optional expertise description -->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+    
     <!-- Testimonials Section -->
     <section id="testimonials" class="py-16 px-6 bg-gray-500 relative text-white">
         <div class="max-w-7xl mx-auto text-center">
@@ -362,4 +416,4 @@
             </div>
         </div>
     </section>
-{% endblock %}
+{% endblock content %}

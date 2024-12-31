@@ -11,43 +11,38 @@ from .forms import (
 )
 
 # Login View
-
-
 def login_view(request):
-    if request.user.is_authenticated:
-        messages.info(request, 'You are already logged in.')
-        return redirect('index')
-    if request.method == "POST":
-        form = LoginForm(request, data=request.POST)
+    if request.method == 'POST':
+        form = LoginForm(data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, 'You have been logged in.')
-                return redirect('index')
-            else:
-                messages.error(request, 'Invalid username or password.')
-                print(form.errors)
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, "You have successfully logged in.")
+            return redirect('index') 
     else:
         form = LoginForm()
-
-    return render(request, "users/login.html", {'form': form})
-
+    
+    return render(request, 'users/login.html', {'form': form})
 
 # Register View
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('index')  # Redirect logged-in users to the home page
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Account created successfully.')
+            role = form.cleaned_data.get('role')
+            user = form.save(commit=False, role=role)
+            user.save()
+            if role == 'instructor':
+                messages.success(
+                    request, 'You have been registered as an instructor, but your account is inactive. Contact the admin to activate your account.')
+            else:
+                messages.success(
+                    request, 'You have been registered as a student.')
             return redirect('login')
-        else:
-            messages.error(request, 'An error occurred. Please try again.')
+
     else:
         form = RegisterForm()
 

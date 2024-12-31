@@ -14,6 +14,7 @@ from django.contrib import messages
 @login_required
 def dashboard_home(request):
     if not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to view this page')
         raise PermissionDenied()
 
     total_courses = Course.objects.count() if Course else 0

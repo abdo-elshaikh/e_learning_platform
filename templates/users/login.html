@@ -4,7 +4,7 @@
 <div class="w-full max-w-md mx-auto bg-white p-10 rounded-xl shadow-lg border-gray-800">
     <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-6">Login to Your Account</h2>
     <!-- Login Form -->
-    <form method="POST" action="{% url 'login' %}" class="space-y-6">
+    <form method="POST" action="{% url 'login' %}" class="space-y-6" autocomplete="off">
         {% csrf_token %}
         <!-- Username Field -->
         <div class="relative">
