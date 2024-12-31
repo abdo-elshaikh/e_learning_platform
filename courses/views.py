@@ -213,7 +213,7 @@ def add_review(request, course_id):
 
 # List Instructors
 def instructor_list(request):
-    instructors = CustomUser.objects.filter(is_instructor=True, is_active=True)[:4]
+    instructors = CustomUser.objects.filter(is_instructor=True, is_active=True)
     return render(request, 'courses/instructor_list.html', {'instructors': instructors})
 
 def instructor_detail(request, instructor_id):
@@ -246,8 +246,6 @@ def instructor_detail(request, instructor_id):
 
 
 # Search Courses
-
-
 def search_courses(request):
     query = request.GET.get('q', '')
     courses = Course.objects.filter(

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Instructors{% endblock %}
+
+{% block content %}
+<!-- Instructor List Section -->
+<section id="instructors" class="py-16 px-6 bg-gray-100">
+    <div class="max-w-7xl mx-auto text-center">
+        <!-- Section Heading -->
+        <h2 class="text-3xl md:text-4xl font-extrabold text-blue-600 mb-12 animate__animated animate__fadeInUp">
+            Meet Our Instructors
+        </h2>
+        <!-- Section Description -->
+        <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto animate__animated animate__fadeInUp"
+            style="animation-delay: 0.1s;">
+            Get to know the experts behind our courses. Our instructors bring their real-world experience and passion
+            for teaching to help you succeed.
+        </p>
+        <!-- Instructors Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {% for instructor in instructors %}
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-gray-50 animate__animated animate__fadeInUp"
+                style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
+                <!-- Instructor Image -->
+                <div class="h-48 bg-cover bg-center"
+                    style="background-image: url('{% if instructor.profile.profile_picture %}{{ instructor.profile.profile_picture.url }}{% else %}{% static 'images/team-3.jpg' %}{% endif %}')">
+                </div>
+                <!-- Instructor Content -->
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mt-4 text-gray-800">{{ instructor.username }}</h3>
+                    <p class="text-gray-600 mt-2">{{ instructor.profile.bio|truncatewords:20 }}</p>
+                    <!-- Action Button -->
+                    <div class="mt-6">
+                        <a href="{% url 'instructor_detail' instructor.id %}"
+                            class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow transition-all duration-300 transform hover:scale-105">
+                            View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
