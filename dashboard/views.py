@@ -22,11 +22,20 @@ def dashboard_home(request):
     total_enrollments = Enrollment.objects.count() if Enrollment else 0
     total_categories = Category.objects.count() if Category else 0
 
+    courses = Course.objects.all()[0:4]
+    users = CustomUser.objects.all()
+    enrollments = Enrollment.objects.all()
+    categories = Category.objects.all()
+
     context = {
         'total_courses': total_courses,
         'total_users': total_users,
         'total_enrollments': total_enrollments,
-        'total_categories': total_categories
+        'total_categories': total_categories,
+        'courses': courses,
+        'users': users,
+        'enrollments': enrollments,
+        'categories': categories
     }
     return render(request, 'dashboard/dashboard_home.html', context)
 
