@@ -148,7 +148,7 @@
                 style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
                 <!-- Course Image -->
                 <div class="h-48 bg-cover bg-center">
-                    <img src="{% static 'images/course-' %}{{ forloop.counter }}.jpg" alt="Course Image" class="w-full h-full object-cover">
+                    <img src="{% if course.image %} {{ course.image.url }} {% else %} {% static 'images/course-' %}{{ forloop.counter }}.jpg {% endif %}" alt="Course Image" class="w-full h-full object-cover">
                 </div>
                 <!-- Course Content -->
                 <div class="p-6">
