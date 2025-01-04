@@ -214,8 +214,6 @@ def add_review(request, course_id):
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
-
-
 # List Instructors
 def instructor_list(request):
     instructors = CustomUser.objects.filter(is_instructor=True, is_active=True)

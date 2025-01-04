@@ -1,5 +1,3 @@
-
-
 // Show or hide the menu when the button is clicked
 const menuToggle = document.getElementById('menu-toggle');
 const sidebar = document.getElementById('sidebar');
@@ -9,16 +7,12 @@ const toggleMenu = document.getElementById('toggle-menu');
 toggleBtn.addEventListener('click', () => {
     toggleMenu.classList.toggle('hidden');
 });
-
-
-
 // Close Snackbar
 document.querySelectorAll('.close-snack-btn').forEach(btn => {
     btn.addEventListener('click', function () {
         this.parentElement.remove();
     });
 });
-
 // Scroll to Categories Section
 const categoryBtn = document.getElementById('category-btn');
 const categoriesSection = document.getElementById('categories');
@@ -32,10 +26,8 @@ if (categoryBtn && categoriesSection) {
         });
     });
 }
-
 // Scroll to Top Button
 const backToTopBtn = document.querySelector('.back-to-top');
-
 // Show or hide the back-to-top button based on scroll position
 if (backToTopBtn) {
     window.addEventListener('scroll', () => {
@@ -46,7 +38,6 @@ if (backToTopBtn) {
         }
     });
 }
-
 // Custom scroll-to-top function with slower animation
 function scrollToTop() {
     const scrollDuration = 900;
@@ -74,50 +65,3 @@ function scrollToTop() {
 if (backToTopBtn) {
     backToTopBtn.addEventListener('click', scrollToTop);
 }
-
-
-// Swiper slider
-document.addEventListener('DOMContentLoaded', () => {
-    const swiper = new Swiper('.swiper-container', {
-        loop: true,
-        spaceBetween: 30,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        autoplay: {
-            delay: 4000,
-            disableOnInteraction: false,
-        },
-        breakpoints: {
-            640: {
-                slidesPerView: 1,
-            },
-            1024: {
-                slidesPerView: 2,
-            }
-        },
-    });
-});
-
-const swiper = new Swiper('.swiper-container', {
-    loop: true,
-    autoplay: {
-        delay: 5000,
-    },
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-    },
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-    breakpoints: {
-        640: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-        }
-    }
-});
-
