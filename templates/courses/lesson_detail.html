@@ -45,10 +45,10 @@
 
             <!-- Video Section -->
             <div>
-                <video id="lesson-video" controls class="w-full rounded-lg border border-gray-300 shadow-sm">
-                    <source src="{{ lesson.video_url }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <iframe width="100%" height="315" src="{{ lesson.video_url }}" 
+                title="YouTube video player" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
             <!-- Navigation between Lessons -->

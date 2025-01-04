@@ -148,11 +148,10 @@
                 style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
                 <!-- Course Image -->
                 <div class="h-48 bg-cover bg-center">
-                    <img src="{% if course.image %} {{ course.image.url }} {% else %} {% static 'images/course-' %}{{ forloop.counter }}.jpg {% endif %}" alt="Course Image" class="w-full h-full object-cover">
+                    <img src="{% if course.image %} {{ course.image }} {% else %} {% static 'images/course-' %}{{ forloop.counter }}.jpg {% endif %}" alt="Course Image" class="w-full h-full object-cover">
                 </div>
                 <!-- Course Content -->
                 <div class="p-6">
-                    <!-- Bestseller Badge -->
                     <span
                         class="text-sm bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full font-semibold">verified</span>
                     <h3 class="text-xl font-semibold mt-4 text-gray-800">{{ course.title }}</h3>

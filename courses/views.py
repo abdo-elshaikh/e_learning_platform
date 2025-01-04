@@ -91,6 +91,9 @@ def course_detail(request, course_id):
             completion_rate = (completed_lessons.count() / lessons.count()) * 100
         except Enrollment.DoesNotExist:
             pass
+    
+    print(f"Enrollment: {enrollment}")
+    print(f"course: {course} - image: {course.image}")
 
     context = {
         'course': course,
@@ -128,8 +131,6 @@ def my_enrollments(request):
     return render(request, 'courses/my_enrollments.html', {'enrollments': enrollments})
 
 # Drop Course
-
-
 @login_required
 def drop_course(request, enrollment_id):
     enrollment = get_object_or_404(
