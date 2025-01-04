@@ -1,0 +1,62 @@
+{% extends 'base_dashboard.html' %}
+
+{% block content %}
+<div class="container mx-auto my-4">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-bold text-blue-600">Lessons</h2>
+        <a href="{% url 'dashboard:lesson_add' %}" class="btn btn-success">
+            <i class="fas fa-plus-circle"></i> Add Lesson
+        </a>
+    </div>
+
+    <!-- Responsive Table -->
+    <div class="overflow-x-auto">
+        <table class="table-auto border-collapse border border-gray-300 w-full text-left bg-white shadow-sm">
+            <thead class="bg-gray-100">
+                <tr class="text-gray-700 uppercase text-sm">
+                    <th scope="col" class="border border-gray-300 px-4 py-2">#</th>
+                    <th scope="col" class="border border-gray-300 px-4 py-2">Title</th>
+                    <th scope="col" class="border border-gray-300 px-4 py-2">Course</th>
+                    <th scope="col" class="border border-gray-300 px-4 py-2">Order</th>
+                    <th scope="col" class="border border-gray-300 px-4 py-2 text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if lessons %}
+                    {% for lesson in lessons %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="border border-gray-300 px-4 py-2">{{ forloop.counter }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ lesson.title }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ lesson.course }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ lesson.order }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">
+                            <div class="inline-flex space-x-2">
+                                <a href="{% url 'dashboard:lesson_detail' lesson.pk %}" 
+                                   class="btn btn-info btn-sm" title="View Lesson">
+                                    <i class="fas fa-eye"></i>
+                                </a> |
+                                <a href="{% url 'dashboard:lesson_edit' lesson.pk %}" 
+                                   class="btn btn-warning btn-sm" title="Edit Lesson">
+                                    <i class="fas fa-edit"></i>
+                                </a> |
+                                <a href="{% url 'dashboard:lesson_delete' lesson.pk %}" 
+                                   class="btn btn-danger btn-sm" title="Delete Lesson">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="5" class="border border-gray-300 px-4 py-2 text-center text-gray-600">
+                        No lessons available
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

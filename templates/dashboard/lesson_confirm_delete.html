@@ -1,0 +1,12 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+<div class="container">
+    <h2>Confirm Delete</h2>
+    <p>Are you sure you want to delete the lesson <strong>{{ lesson.title }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+{% endblock %}

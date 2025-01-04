@@ -1,5 +1,5 @@
 from django import forms
-from courses.models import Course, Enrollment, Category
+from courses.models import Course, Enrollment, Category, Lesson
 from users.models import CustomUser
 from django.contrib import messages
 
@@ -175,3 +175,16 @@ class UserForm(forms.ModelForm):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+class LessonForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['course', 'title', 'description', 'video_url', 'order']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['course'].empty_label = 'Select Course'
+        self.fields['title'].label = 'Title'
+        self.fields['description'].label = 'Description'
+        self.fields['video_url'].label = 'Video URL'
+        self.fields['order'].label = 'Order'

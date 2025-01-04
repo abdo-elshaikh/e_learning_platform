@@ -1,85 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
+  {% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Auth | {% block title %}{% endblock %}</title>
 
     <!-- Tailwind CSS -->
-    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet" />
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-</head>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  </head>
 
-<body class="bg-gray-100 min-h-lvh grid grid-cols-1 md:grid-cols-2 relative">
-
+  <body class="bg-gray-100 min-h-lvh grid grid-cols-1 md:grid-cols-2 relative">
     <!-- Left Side (Form) -->
     <div class="w-full flex justify-center items-center p-6 md:p-10 relative">
-        <!-- Logo -->
-        <div class="absolute top-0 left-0 p-6">
-            <a href="{% url 'index' %}" class="text-2xl font-bold text-blue-600">
-                <i class="fas fa-graduation-cap"></i> E-Learning
-            </a>
-        </div>
+      <!-- Logo -->
+      <div class="absolute top-0 left-0 p-6">
+        <a href="{% url 'index' %}" class="text-3xl font-bold second-text">
+          <i class="fas fa-graduation-cap"></i> Cairo SE Hub
+        </a>
+      </div>
 
-        <!-- Messages Display -->
-        {% if messages %}
-        <div class="alert-bar fixed top-10 left-0 z-50">
-            {% for message in messages %}
-            <div class="flex items-center justify-between bg-blue-600 text-white p-4 rounded-md shadow-md mb-2">
-                <div class="flex items-center">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    <p class="inline-block">{{ message }}</p>
-                </div>
-                <button class="ml-4 text-white focus:outline-none" onclick="this.parentElement.style.display='none';">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            {% endfor %}
+      <!-- Messages Display -->
+      {% if messages %}
+      <div class="alert-bar fixed top-10 left-0 z-50">
+        {% for message in messages %}
+        <div
+          class="flex items-center justify-between bg-blue-600 text-white p-4 rounded-md shadow-md mb-2"
+        >
+          <div class="flex items-center">
+            <i class="fas fa-info-circle mr-2"></i>
+            <p class="inline-block">{{ message }}</p>
+          </div>
+          <button
+            class="ml-4 text-white focus:outline-none"
+            onclick="this.parentElement.style.display='none';"
+          >
+            <i class="fas fa-times"></i>
+          </button>
         </div>
-        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
 
-        <!-- Errors -->
-        {% if form.errors %}
-        <div class="alert-bar fixed top-10 left-0 z-50">
-            {% for field, error in form.errors.items %}
-            <div class="flex items-center justify-between bg-red-500 text-white p-4 rounded-md shadow-md mb-2">
-                <div class="flex items-center">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    <p class="inline-block">
-                        <strong>{{ field|title }}:</strong> {{ error }}
-                    </p>
-                </div>
-                <button class="ml-4 text-white focus:outline-none" onclick="this.parentElement.style.display='none';">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            {% endfor %}
+      <!-- Errors -->
+      {% if form.errors %}
+      <div class="alert-bar fixed top-10 left-0 z-50">
+        {% for field, error in form.errors.items %}
+        <div
+          class="flex items-center justify-between bg-red-500 text-white p-4 rounded-md shadow-md mb-2"
+        >
+          <div class="flex items-center">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <p class="inline-block">
+              <strong>{{ field|title }}:</strong> {{ error }}
+            </p>
+          </div>
+          <button
+            class="ml-4 text-white focus:outline-none"
+            onclick="this.parentElement.style.display='none';"
+          >
+            <i class="fas fa-times"></i>
+          </button>
         </div>
-        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
 
-        <!-- Form Container -->
-        {% block content %}{% endblock %}
+      <!-- Form Container -->
+      {% block content %}{% endblock %}
     </div>
 
     <!-- Right Side (Pattern Background) -->
     <div class="hidden md:block w-full relative">
-        <img src="{% static 'images/auth.png' %}" alt="Auth Pattern"
-            class="w-full h-full object-cover opacity-60">
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-blue-900 to-transparent opacity-30"></div>
+      <img
+        src="{% static 'images/auth.png' %}"
+        alt="Auth Pattern"
+        class="w-full h-full object-cover opacity-60"
+      />
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-blue-900 to-transparent opacity-30"
+      ></div>
     </div>
 
     <script>
-        // Auto-hide alert bar after 5 seconds
-        setTimeout(() => {
-            const alertBars = document.querySelectorAll('.alert-bar div');
-            alertBars.forEach(alertBar => alertBar.style.display = 'none');
-        }, 5000);
+      // Auto-hide alert bar after 5 seconds
+      setTimeout(() => {
+        const alertBars = document.querySelectorAll(".alert-bar div");
+        alertBars.forEach((alertBar) => (alertBar.style.display = "none"));
+      }, 5000);
     </script>
-
-</body>
-
+  </body>
 </html>

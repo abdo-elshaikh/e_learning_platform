@@ -3,9 +3,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from courses.models import Course, Category, Enrollment
+from courses.models import Course, Category, Enrollment, Lesson
 from users.models import CustomUser, Profile
-from .forms import CourseForm, EnrollmentForm, CategoryForm, UserForm
+from .forms import CourseForm, EnrollmentForm, CategoryForm, UserForm, LessonForm
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 
@@ -215,8 +215,6 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 # Category Update View
-
-
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
@@ -232,8 +230,6 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 # Category Delete View
-
-
 class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'dashboard/category_confirm_delete.html'
@@ -253,11 +249,63 @@ class InstructorListView(LoginRequiredMixin, ListView):
     queryset = CustomUser.objects.filter(is_instructor=True)
 
 # student list view
-
-
 class StudentListView(LoginRequiredMixin, ListView):
     model = CustomUser
     form_class = UserForm
     template_name = 'dashboard/student_list.html'
     context_object_name = 'students'
     queryset = CustomUser.objects.filter(is_student=True)
+
+# List View for Lessons
+class LessonListView(LoginRequiredMixin, ListView):
+    model = Lesson
+    template_name = 'dashboard/lesson_list.html'
+    context_object_name = 'lessons'
+
+# Create View for Lessons
+class LessonCreateView(LoginRequiredMixin, CreateView):
+    model = Lesson
+    form_class = LessonForm
+    template_name = 'dashboard/lesson_form.html'
+    success_url = reverse_lazy('dashboard:lesson_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Lesson created successfully')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Lesson creation failed')
+        return super().form_invalid(form)
+
+# Update View for Lessons
+class LessonUpdateView(LoginRequiredMixin, UpdateView):
+    model = Lesson
+    form_class = LessonForm
+    template_name = 'dashboard/lesson_form.html'
+    success_url = reverse_lazy('dashboard:lesson_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Lesson updated successfully')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Lesson update failed')
+        return super().form_invalid(form)
+
+# Delete View for Lessons
+class LessonDeleteView(LoginRequiredMixin, DeleteView):
+    model = Lesson
+    template_name = 'dashboard/lesson_confirm_delete.html'
+    success_url = reverse_lazy('dashboard:lesson_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Lesson deleted successfully')
+        return super().delete(request, *args, **kwargs)
+
+# Detail View for Lessons
+class LessonDetailView(LoginRequiredMixin, DetailView):
+    model = Lesson
+    template_name = 'dashboard/lesson_detail.html'
+    context_object_name = 'lesson'
+
+

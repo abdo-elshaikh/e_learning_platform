@@ -1,194 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
+  {% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>
-        {% block title %}{% endblock %}
-    </title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{% block title %}{% endblock %}</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{% static 'images/elearning.ico' %}" type="image/x-icon">
-
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/elearning.ico' %}"
+      type="image/x-icon"
+    />
     <!-- Tailwind CSS -->
-    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
-    
+    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet" />
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
-    <!-- SwiperJS CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  </head>
 
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-
-</head>
-
-<body class="bg-gray-50 text-gray-800">
+  <body class="bg-gray-50 text-gray-800">
     <!-- Header -->
-    <header class="bg-gray-700 text-white fixed top-0 w-full z-10 shadow-lg">
-        <nav class="container mx-auto flex items-center justify-between py-4 px-6">
-            <!-- Logo -->
-            <div class="flex items-center space-x-4">
-                <a href="{% url 'index' %}" class="text-2xl font-bold flex items-center space-x-2">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h1 class="text-2xl font-bold">E_Learning</h1>
-                </a>
-            </div>
-            <!-- Navigation Links -->
-            <ul class="hidden md:flex space-x-4 font-medium text-sm text-white uppercase tracking-wider">
-                <li><a href="{% url 'index' %}" class="hover:text-blue-500">Home</a></li>
-                <li><a href="{% url 'about' %}" class="hover:text-blue-500">About</a></li>
-                <li><a href="{% url 'category_list' %}" class="hover:text-blue-500">Categories</a></li>
-                <li><a href="{% url 'course_list' %}" class="hover:text-blue-500">Courses</a></li>
-                <li><a href="{% url 'instructor_list' %}" class="hover:text-blue-500">Instructors</a></li>
-            </ul>
-            <!-- Auth Buttons -->
-            <div class="hidden md:flex items-center space-x-4">
-                {% if user.is_authenticated %}
-                {% if user.is_superuser %}
-                <button><a href="{% url 'dashboard:dashboard_home' %}" class="hover:text-blue-600"><i
-                            class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></button>
-                {% elif user.is_instructor %}
-                <button><a href="{% url 'instructor_dashboard' %}" class="hover:text-blue-600"><i
-                            class="fas fa-tachometer-alt mr-2"></i>Instructor</a></button>
-                {% else %}
-                <button><a href="{% url 'my_enrollments' %}" class="hover:text-blue-600"><i
-                            class="fas fa-book-reader mr-2"></i>Enrollments</a></button>
-                {% endif %}
-                <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md">
-                    <a href="{% url 'logout' %}">Logout</a>
-                </button>
-                {% else %}
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md">
-                    <a href="{% url 'login' %}">Login</a>
-                </button>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md">
-                    <a href="{% url 'register' %}">Register</a>
-                </button>
-                {% endif %}
-            </div>
-            <!-- Mobile Menu Button -->
-            <button id="toggle-btn" class="md:hidden text-2xl">
-                <i class="fa fa-bars"></i>
-            </button>
-        </nav>
-
-        <!-- Mobile Navigation Menu -->
-        <div id="toggle-menu" class="bg-gray-700 shadow-md md:hidden hidden">
-            <ul class="flex flex-col space-y-4 px-6 py-4 text-sm font-medium">
-                <li><a href="{% url 'index' %}" class="hover:text-blue-600"><i class="fas fa-home mr-2"></i>Home</a>
-                </li>
-                <li><a href="{% url 'about' %}" class="hover:text-blue-600"><i
-                            class="fas fa-info-circle mr-2"></i>About</a></li>
-                <li><a href="{% url 'category_list' %}" class="hover:text-blue-600"><i
-                            class="fas fa-book mr-2"></i>Courses</a></li>
-                <li><a href="{% url 'course_list' %}" class="hover:text-blue-600"><i
-                            class="fas fa-th mr-2"></i>Categories</a></li>
-                <li><a href="{% url 'instructor_list' %}" class="hover:text-blue-600"><i
-                            class="fas fa-user-tie mr-2"></i>Instructors</a></li>
-                <hr class="my-4">
-                <!-- Auth Links -->
-                {% if user.is_authenticated %}
-                {% if user.is_superuser %}
-                <li><a href="{% url 'dashboard:dashboard_home' %}" class="hover:text-blue-600"><i
-                            class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
-                {% elif user.is_instructor %}
-                <li><a href="{% url 'instructor_dashboard' %}" class="hover:text-blue-600"><i
-                            class="fas fa-tachometer-alt mr-2"></i>Instructor</a></li>
-                {% else %}
-                <li><a href="{% url 'my_enrollments' %}" class="hover:text-blue-600"><i
-                            class="fas fa-book-reader mr-2"></i>Enrollments</a></li>
-                {% endif %}
-                <li><a href="{% url 'logout' %}" class="hover:text-blue-600"><i
-                            class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}" class="hover:text-blue-600"><i
-                            class="fas fa-sign-in-alt mr-2"></i>Login</a></li>
-                <li><a href="{% url 'register' %}" class="hover:text-blue-600"><i
-                            class="fas fa-user-plus mr-2"></i>Register</a></li>
-                {% endif %}
-            </ul>
+    <header class="text-white fixed top-0 w-full z-10 shadow-lg">
+      <nav
+        class="container mx-auto flex items-center justify-between py-4 px-6"
+      >
+        <!-- Logo -->
+        <div class="flex items-center space-x-4">
+          <a
+            href="{% url 'index' %}"
+            class="text-3xl font-bold flex items-center space-x-2"
+          >
+            <i class="fas fa-graduation-cap"></i>
+            <h1 class="text-3xl font-bold">Cairo SE Hub</h1>
+          </a>
         </div>
+        <!-- Navigation Links -->
+        <ul
+          class="hidden md:flex space-x-4 font-medium text-lg text-white uppercase tracking-wider"
+        >
+          <li>
+            <a href="{% url 'index' %}" class="hover:text-blue-500">Home</a>
+          </li>
+          <li>
+            <a href="{% url 'about' %}" class="hover:text-blue-500">About</a>
+          </li>
+          <li>
+            <a href="{% url 'category_list' %}" class="hover:text-blue-500"
+              >Categories</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'course_list' %}" class="hover:text-blue-500"
+              >Courses</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'instructor_list' %}" class="hover:text-blue-500"
+              >Instructors</a
+            >
+          </li>
+        </ul>
+        <!-- Auth Buttons -->
+        <div class="hidden md:flex items-center space-x-4">
+          {% if user.is_authenticated %} {% if user.is_superuser %}
+          <button>
+            <a
+              href="{% url 'dashboard:dashboard_home' %}"
+              class="hover:text-blue-600"
+              ><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a
+            >
+          </button>
+          {% elif user.is_instructor %}
+          <button>
+            <a
+              href="{% url 'instructor_dashboard' %}"
+              class="hover:text-blue-600"
+              ><i class="fas fa-tachometer-alt mr-2"></i>Instructor</a
+            >
+          </button>
+          {% else %}
+          <button>
+            <a href="{% url 'my_enrollments' %}" class="hover:text-blue-600"
+              ><i class="fas fa-book-reader mr-2"></i>Enrollments</a
+            >
+          </button>
+          {% endif %}
+          <button
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md"
+          >
+            <a href="{% url 'logout' %}">Logout</a>
+          </button>
+          {% else %}
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md"
+          >
+            <a href="{% url 'login' %}">Login</a>
+          </button>
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md"
+          >
+            <a href="{% url 'register' %}">Register</a>
+          </button>
+          {% endif %}
+        </div>
+        <!-- Mobile Menu Button -->
+        <button id="toggle-btn" class="md:hidden text-2xl">
+          <i class="fa fa-bars"></i>
+        </button>
+      </nav>
+
+      <!-- Mobile Navigation Menu -->
+      <div id="toggle-menu" class="bg-gray-700 shadow-md md:hidden hidden">
+        <ul class="flex flex-col space-y-4 px-6 py-4 text-sm font-medium">
+          <li>
+            <a href="{% url 'index' %}" class="hover:text-blue-600"
+              ><i class="fas fa-home mr-2"></i>Home</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'about' %}" class="hover:text-blue-600"
+              ><i class="fas fa-info-circle mr-2"></i>About</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'category_list' %}" class="hover:text-blue-600"
+              ><i class="fas fa-book mr-2"></i>Courses</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'course_list' %}" class="hover:text-blue-600"
+              ><i class="fas fa-th mr-2"></i>Categories</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'instructor_list' %}" class="hover:text-blue-600"
+              ><i class="fas fa-user-tie mr-2"></i>Instructors</a
+            >
+          </li>
+          <hr class="my-4" />
+          <!-- Auth Links -->
+          {% if user.is_authenticated %} {% if user.is_superuser %}
+          <li>
+            <a
+              href="{% url 'dashboard:dashboard_home' %}"
+              class="hover:text-blue-600"
+              ><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a
+            >
+          </li>
+          {% elif user.is_instructor %}
+          <li>
+            <a
+              href="{% url 'instructor_dashboard' %}"
+              class="hover:text-blue-600"
+              ><i class="fas fa-tachometer-alt mr-2"></i>Instructor</a
+            >
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'my_enrollments' %}" class="hover:text-blue-600"
+              ><i class="fas fa-book-reader mr-2"></i>Enrollments</a
+            >
+          </li>
+          {% endif %}
+          <li>
+            <a href="{% url 'logout' %}" class="hover:text-blue-600"
+              ><i class="fas fa-sign-out-alt mr-2"></i>Logout</a
+            >
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'login' %}" class="hover:text-blue-600"
+              ><i class="fas fa-sign-in-alt mr-2"></i>Login</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'register' %}" class="hover:text-blue-600"
+              ><i class="fas fa-user-plus mr-2"></i>Register</a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </div>
     </header>
 
-    <main class="mt-16">
-        {% block content %}{% endblock %}
-    </main>
+    <main class="mt-16">{% block content %}{% endblock %}</main>
 
     <!-- Back to Top Button -->
-    <div class="back-to-top hidden fixed bottom-4 right-4" onclick="scrollToTop">
-        <a aria-label="Back to Top" title="Back to Top"
-            class="bg-blue-600 hover:bg-blue-800 text-white py-3 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
-            <i class="fas fa-arrow-up"></i>
-        </a>
+    <div
+      class="back-to-top hidden fixed bottom-4 right-4"
+      onclick="scrollToTop"
+    >
+      <a
+        aria-label="Back to Top"
+        title="Back to Top"
+        class="bg-blue-600 hover:bg-blue-800 text-white py-3 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer"
+      >
+        <i class="fas fa-arrow-up"></i>
+      </a>
     </div>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-300">
-        <div class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Column 1 -->
-            <div>
-                <h4 class="text-white text-lg font-bold mb-4">E_Learning</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-600">About Us</a></li>
-                    <li><a href="#courses" class="hover:text-blue-600">Courses</a></li>
-                    <li><a href="#testimonials" class="hover:text-blue-600">Testimonials</a></li>
-                </ul>
-            </div>
-            <!-- Column 2 -->
-            <div>
-                <h4 class="text-white text-lg font-bold mb-4">Resources</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-600">Blog</a></li>
-                    <li><a href="#" class="hover:text-blue-600">FAQ</a></li>
-                    <li><a href="#" class="hover:text-blue-600">Contact</a></li>
-                </ul>
-            </div>
-            <!-- Column 3 -->
-            <div>
-                <h4 class="text-white text-lg font-bold mb-4">Connect with Us</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-600"><i class="fab fa-facebook-f mr-2"></i>Facebook</a></li>
-                    <li><a href="#" class="hover:text-blue-600"><i class="fab fa-twitter mr-2"></i>Twitter</a></li>
-                    <li><a href="#" class="hover:text-blue-600"><i class="fab fa-instagram mr-2"></i>Instagram</a></li>
-                </ul>
-            </div>
+      <div
+        class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-3 gap-8"
+      >
+        <!-- Column 1 -->
+        <div>
+          <h4 class="text-white text-lg font-bold mb-4">E_Learning</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-600">About Us</a></li>
+            <li><a href="#courses" class="hover:text-blue-600">Courses</a></li>
+            <li>
+              <a href="#testimonials" class="hover:text-blue-600"
+                >Testimonials</a
+              >
+            </li>
+          </ul>
         </div>
-        <div class="bg-gray-700 py-4 text-center">
-            <p>&copy; 2024 E_Learning. All rights reserved.</p>
+        <!-- Column 2 -->
+        <div>
+          <h4 class="text-white text-lg font-bold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-600">Blog</a></li>
+            <li><a href="#" class="hover:text-blue-600">FAQ</a></li>
+            <li><a href="#" class="hover:text-blue-600">Contact</a></li>
+          </ul>
         </div>
+        <!-- Column 3 -->
+        <div>
+          <h4 class="text-white text-lg font-bold mb-4">Connect with Us</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-facebook-f mr-2"></i>Facebook</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-twitter mr-2"></i>Twitter</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-instagram mr-2"></i>Instagram</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-gray-700 py-4 text-center">
+        <p>&copy; 2024 E_Learning. All rights reserved.</p>
+      </div>
     </footer>
 
     <!-- Messages Snackbar Notification -->
     <div
-        class="snackbar-container fixed top-16 right-3 z-20 w-auto p-4 rounded-lg shadow-lg transition-all duration-300">
-        {% if messages %}
-        {% for message in messages %}
-        <div
-            class="snackbar text-white p-4 rounded-lg shadow-lg mb-2 {{ message.tags }} flex justify-between items-center w-96 transition-all duration-300 gap-2">
-            <i class="fas fa-info-circle mr-2"></i>
-            <p class="inline-block">{{ message }}</p>
-            <i class="fas fa-times cursor-pointer close-snack-btn"></i>
-        </div>
-        {% endfor %}
-        {% endif %}
+      class="snackbar-container fixed top-16 right-3 z-20 w-auto p-4 rounded-lg shadow-lg transition-all duration-300"
+    >
+      {% if messages %} {% for message in messages %}
+      <div
+        class="snackbar text-white p-4 rounded-lg shadow-lg mb-2 {{ message.tags }} flex justify-between items-center w-96 transition-all duration-300 gap-2"
+      >
+        <i class="fas fa-info-circle mr-2"></i>
+        <p class="inline-block">{{ message }}</p>
+        <i class="fas fa-times cursor-pointer close-snack-btn"></i>
+      </div>
+      {% endfor %} {% endif %}
     </div>
 
     <!-- JavaScript -->
     <script src="{% static 'js/main.js' %}"></script>
-</body>
-
+  </body>
 </html>

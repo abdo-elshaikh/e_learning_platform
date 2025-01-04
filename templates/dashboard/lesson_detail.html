@@ -1,0 +1,25 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+<div class="container">
+    <h2>{{ lesson.title }}</h2>
+    <p><strong>Description:</strong> {{ lesson.description }}</p>
+    <p><strong>Course:</strong> {{ lesson.course }}</p>
+    <p><strong>Content:</strong></p>
+    <div>
+        {{ lesson.description|safe }}
+    </div>
+    <p><strong>Video:</strong></p> url: {{ lesson.video_url }}
+    <div>
+        <video width="320" height="240" controls>
+            <source src="{{ lesson.video.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <a href="{% url 'dashboard:lesson_edit' lesson.id %}" class="btn btn-primary">
+        <i class="fas fa-edit"></i> Edit Lesson
+    </a>
+    <a href="{% url 'dashboard:lesson_delete' lesson.id %}" class="btn btn-danger">
+        <i class="fas fa-trash"></i> Delete Lesson
+    </a>
+</div>
+{% endblock %}

@@ -6,6 +6,7 @@ from .views import (
     EnrollmentListView, EnrollmentCreateView, EnrollmentUpdateView, EnrollmentDeleteView,
     CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView,
     InstructorListView, StudentListView, UserDetailView,
+    LessonListView, LessonCreateView, LessonUpdateView, LessonDeleteView, LessonDetailView
 )
 
 app_name = 'dashboard'
@@ -29,6 +30,13 @@ urlpatterns = [
     path('courses/<int:pk>/edit/', CourseUpdateView.as_view(), name='course_edit'),
     path('courses/<int:pk>/delete/',
          CourseDeleteView.as_view(), name='course_delete'),
+    
+    # Lesson URLs
+    path('lessons/', LessonListView.as_view(), name='lesson_list'),
+    path('lessons/add/', LessonCreateView.as_view(), name='lesson_add'),
+    path('lessons/<int:pk>/edit/', LessonUpdateView.as_view(), name='lesson_edit'),
+    path('lessons/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson_delete'),
+    path('lessons/<int:pk>/', LessonDetailView.as_view(), name='lesson_detail'),
 
     # User URLs
     path('users/', UserListView.as_view(), name='users_list'),

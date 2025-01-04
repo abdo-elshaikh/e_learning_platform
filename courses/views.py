@@ -50,8 +50,6 @@ def category_detail(request, category_id):
     return render(request, 'courses/category_detail.html', {'category': category, 'courses': courses})
 
 # List Courses
-
-
 def course_list(request):
     category_filter = request.GET.get('category')
     if category_filter:
@@ -68,36 +66,41 @@ def course_list(request):
 
     return render(request, 'courses/course_list.html', {'courses': page_obj, 'categories': categories})
 
-# Course Detail
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     lessons = Lesson.objects.filter(course=course)
     user = request.user
     is_authenticated = user.is_authenticated
 
-    # Check if the user is enrolled
+    # Default values for enrollment and completion status
     enrollment = None
     is_enrolled = False
+    completed_lessons = []
     all_lessons_completed = False
+    completion_rate = 0
 
     if is_authenticated:
         try:
             enrollment = Enrollment.objects.get(course=course, student=user)
             is_enrolled = True
-            # Check if all lessons are completed by the user in the course
-            completed_lesson_count = enrollment.completed_lessons.count()
-            total_lesson_count = course.lesson_set.count()
-            all_lessons_completed = completed_lesson_count == total_lesson_count
+            # Retrieve completed lessons
+            completed_lessons = enrollment.completed_lessons.all()
+            # Check if all lessons are completed
+            all_lessons_completed = completed_lessons.count() == lessons.count()
+            # Calculate completion rate
+            completion_rate = (completed_lessons.count() / lessons.count()) * 100
         except Enrollment.DoesNotExist:
             pass
 
     context = {
         'course': course,
+        'lessons': lessons,
         'is_authenticated': is_authenticated,
         'is_enrolled': is_enrolled,
-        'enrollment': enrollment,
+        'completed_lessons': completed_lessons,
         'all_lessons_completed': all_lessons_completed,
-        'lessons': lessons
+        'enrollment': enrollment,
+        'completion_rate': completion_rate,
     }
 
     return render(request, 'courses/course_detail.html', context)
@@ -141,6 +144,7 @@ def lesson_detail(request, course_id, lesson_id):
     # Fetch the lesson and course details
     lesson = get_object_or_404(Lesson, id=lesson_id, course_id=course_id)
     lessons = Lesson.objects.filter(course_id=course_id).order_by("order")
+    course = get_object_or_404(Course, id=course_id)
 
     user = request.user
 
@@ -171,6 +175,7 @@ def lesson_detail(request, course_id, lesson_id):
         "next_lesson": next_lesson, 
         "enrollment": enrollment,
         "lessons": lessons,
+        "course": course,
     }
     return render(request, "courses/lesson_detail.html", context)
 

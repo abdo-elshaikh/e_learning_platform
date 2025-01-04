@@ -1,131 +1,163 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <div class="container mx-auto p-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Left Side: Course Details -->
-            <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
-                <!-- Course Image -->
-                <div class="mb-6">
-                    {% if course.image %}
-                        <img src="{{ course.image }}" alt="{{ course.title }}" class="w-full h-64 object-cover rounded-lg">
-                    {% else %}
-                        <img src="{% static 'images/course-2.jpg' %}" alt="Default Image" class="w-full h-64 object-cover rounded-lg">
-                    {% endif %}
-                </div>
-
-                <!-- Course Title and Description -->
-                <div>
-                    <h1 class="text-3xl font-semibold text-gray-800">{{ course.title }}</h1>
-                    <p class="text-gray-600 mt-2">{{ course.description }}</p>
-                </div>
-
-                <!-- Course Meta Information -->
-                <div class="flex items-center space-x-4 text-sm text-gray-500 mt-6">
-                    <span>Category: {{ course.category.name }}</span>
-                    <span>Rating: {{ course.rating|default:0 }}/5</span>
-                    <span>Lessons: {{ course.lesson_set.count }}</span>
-                </div>
-
-                <!-- Enrollment Actions -->
-                <div class="mt-6">
-                    {% if is_authenticated %}
-                        {% if is_enrolled %}
-                            <!-- Drop Course Button -->
-                            <form method="post" action="{% url 'drop_course' enrollment.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
-                                    Drop Course
-                                </button>
-                            </form>
-                            {% if all_lessons_completed %}
-                                <!-- Review Form -->
-                                <form method="post" action="{% url 'add_review' course.id %}" class="mt-4">
-                                    {% csrf_token %}
-                                    <textarea name="review" class="w-full border rounded p-2" rows="3" placeholder="Leave a review"></textarea>
-                                    <div class="mt-2">
-                                        <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
-                                        <select name="rating" class="border rounded w-full py-2 px-3">
-                                            {% for i in "12345" %}
-                                                <option value="{{ i }}">{{ i }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
-                                        Submit Review
-                                    </button>
-                                </form>
-                            {% endif %}
-                        {% else %}
-                            <!-- Enroll in Course Button -->
-                            <form method="post" action="{% url 'enroll_in_course' course.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
-                                    Enroll in Course
-                                </button>
-                            </form>
-                        {% endif %}
-                    {% else %}
-                        <p class="text-red-500">
-                            Please <a href="{% url 'login' %}" class="text-blue-500 underline">login</a> to enroll or comment.
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Right Side: Lessons List -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Lessons</h2>
-                <ul class="divide-y divide-gray-200">
-                    {% for lesson in lessons %}
-                        <li class="py-4 flex justify-between items-center {% if lesson.completed %} bg-green-100 {% endif %}">
-                            <div>
-                                <h3 class="text-lg font-medium text-gray-800">{{ lesson.title }}</h3>
-                                <p class="text-sm text-gray-500">{{ lesson.description }}</p>
-                            </div>
-                            {% if lesson in lessons %}
-                            {% if user.is_authenticated %}
-                                <a href="{% url 'lesson_detail' course.id lesson.id %}" class="text-blue-500 hover:underline">View Lesson</a>
-                            {% else %}
-                                <span class="text-gray-400">Enroll to access</span>
-                            {% endif %}
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <!-- Comments Section -->
-        <div class="mt-8">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Comments</h2>
-            <ul class="divide-y divide-gray-200 mb-4">
-                {% for comment in course.comment_set.all %}
-                    <li class="py-4">
-                        <p class="text-gray-600">
-                            <span class="font-medium">{{ comment.student.username }}</span>: {{ comment.comment }}
-                        </p>
-                    </li>
-                {% endfor %}
-                {% if not course.comment_set.exists %}
-                    <li class="py-4 text-gray-500">No comments yet. Be the first to comment!</li>
+<div class="container mx-auto p-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Left Side: Course Details -->
+        <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
+            <!-- Course Image -->
+            <div class="mb-6">
+                {% if course.image %}
+                <img src="{{ course.image }}" alt="{{ course.title }}" class="w-full h-64 object-cover rounded-lg">
+                {% else %}
+                <img src="{% static 'images/course-2.jpg' %}" alt="Default Image"
+                    class="w-full h-64 object-cover rounded-lg">
                 {% endif %}
-            </ul>
+            </div>
 
-            <!-- Comment Form -->
-            {% if user.is_authenticated %}
-                <form method="post" action="{% url 'add_comment' course.id %}">
+            <!-- Course Title and Description -->
+            <div>
+                <h1 class="text-3xl font-semibold text-gray-800">{{ course.title }}</h1>
+                <p class="text-gray-600 mt-2">{{ course.description }}</p>
+            </div>
+
+            <!-- Course Meta Information -->
+            <div class="flex items-center space-x-4 text-sm text-gray-500 mt-6">
+                <span>Category: {{ course.category.name }}</span>
+                <span>Rating: {{ course.rating|default:0 }}/5</span>
+                <span>Lessons: {{ course.lesson_set.count }}</span>
+            </div>
+
+            <!-- Enrollment Actions -->
+            <div class="mt-6">
+                {% if is_authenticated %}
+                {% if is_enrolled %}
+                <!-- Drop Course Button -->
+                <form method="post" action="{% url 'drop_course' enrollment.id %}">
                     {% csrf_token %}
-                    <textarea name="comment" class="w-full border rounded p-2" rows="3" placeholder="Add a comment"></textarea>
-                    <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
-                        Submit Comment
+                    <button type="submit"
+                        class="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                        Drop Course
                     </button>
                 </form>
-            {% else %}
+                <div class="divide-y divide-dashed">
+                    <h2 class="text-xl font-semibold text-gray-800 mt-4">Course Progress</h2>
+                    <div class="flex justify-between items-center mt-2">
+                        <span>Lessons Completed:</span>
+                        <span>{{ completed_lessons|length }}/{{ lessons|length }}</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span>Course Completion:</span>
+                        <span>{{ completion_rate }} %</span>
+                    </div>
+                </div>
+                {% if all_lessons_completed %}
+                <!-- Review Form -->
+                <form method="post" action="{% url 'add_review' course.id %}"
+                    class="mt-4 space-y-2 w-full border rounded p-4 bg-gray-100">
+                    {% csrf_token %}
+                    <label for="review" class="block text-sm font-medium text-gray-700">Review:</label>
+                    <textarea name="review" class="w-full border rounded p-2" rows="3"
+                        placeholder="Leave a review"></textarea>
+                    <div class="mt-2">
+                        <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
+                        <select name="rating" class="border rounded w-full py-2 px-3">
+                            {% for i in "12345" %}
+                            <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit"
+                        class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                        Submit Review
+                    </button>
+                </form>
+                {% endif %}
+                {% else %}
+                <!-- Enroll in Course Button -->
+                <form method="post" action="{% url 'enroll_in_course' course.id %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                        Enroll in Course
+                    </button>
+                </form>
+                {% endif %}
+                {% else %}
                 <p class="text-red-500">
-                    Please <a href="{% url 'login' %}" class="text-blue-500 underline">login</a> to comment.
+                    Please <a href="{% url 'login' %}" class="text-blue-500 underline">login</a> to enroll or comment.
                 </p>
-            {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Side: Lessons List -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Lessons</h2>
+            <ul class="divide-y divide-gray-200 space-y-4">
+                {% for lesson in lessons %}
+                <li class="p-4 flex justify-between items-center border-b-2 cusror-pointer hover:bg-gray-100 text-decoration-none 
+                                   {% if lesson in completed_lessons %} bg-green-100 {% endif %}">
+                    <a href="{% url 'lesson_detail' course.id lesson.id %}" class="text-blue-500 hover:underline">
+
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800">{{ forloop.counter }} - {{ lesson.title }}
+                            </h3>
+                            <p class="text-sm text-gray-500">{{ lesson.description }}</p>
+                        </div>
+                        {% if user.is_authenticated %}
+                        {% if lesson in completed_lessons %}
+                        <span class="text-green-500 font-medium">Completed</span>
+                        {% else %}
+                        <form method="post" action="{% url 'mark_complete' lesson.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                                Mark as Complete
+                            </button>
+                        </form>
+                        {% endif %}
+                        {% else %}
+                        <span class="text-gray-400">Enroll to access</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
+
+
+    <!-- Comments Section -->
+    <div class="mt-8">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Comments</h2>
+        <ul class="divide-y divide-gray-200 mb-4">
+            {% for comment in course.comment_set.all %}
+            <li class="py-4">
+                <p class="text-gray-600">
+                    <span class="font-medium">{{ comment.student.username }}</span>: {{ comment.comment }}
+                </p>
+            </li>
+            {% endfor %}
+            {% if not course.comment_set.exists %}
+            <li class="py-4 text-gray-500">No comments yet. Be the first to comment!</li>
+            {% endif %}
+        </ul>
+
+        <!-- Comment Form -->
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_comment' course.id %}">
+            {% csrf_token %}
+            <textarea name="comment" class="w-full border rounded p-2" rows="3" placeholder="Add a comment"></textarea>
+            <button type="submit"
+                class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-full transition-colors duration-200">
+                Submit Comment
+            </button>
+        </form>
+        {% else %}
+        <p class="text-red-500">
+            Please <a href="{% url 'login' %}" class="text-blue-500 underline">login</a> to comment.
+        </p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

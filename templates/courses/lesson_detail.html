@@ -2,85 +2,113 @@
 {% load static %}
 
 {% block content %}
-    <div class="container max-w-screen-xl p-8 mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2  gap-6">
-            <!-- Main Content Column -->
-            <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
-                <!-- Lesson Title and Description -->
-                <div class="mb-4">
-                    <h1 class="text-2xl font-bold">{{ lesson.title }}</h1>
-                    <p class="text-gray-600">{{ lesson.description }}</p>
+<div class="container max-w-screen-xl p-8 mx-auto">
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Sidebar (Lessons List) -->
+        <div class="col-span-1 sidebar bg-gray-50 border border-gray-200 shadow-sm rounded-lg p-6 ">
+            <!-- back to course -->
+            <a href="{% url 'course_detail' course.id %}" class="text-blue-300 hover:text-blue-500 font-medium mb-6">
+                &larr; Back to Course
+            </a>
+            <!-- Course details -->
+            <div class="flex items-center space-x-4 mb-6 border-b pb-4">
+                <img src="{{ course.image }}" alt="{{ course.title }}" class="w-16 h-16 object-cover rounded-lg">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800">{{ course.title }}</h2>
+                    <p class="text-gray-600">{{ course.description }}</p>
                 </div>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">Lessons in This Course</h3>
+            <ul class="space-y-3">
+                {% for lesson in lessons %}
+                    <li class="flex items-center justify-between bg-white hover:bg-gray-100 transition duration-200 p-3 rounded-lg shadow-sm">
+                        <a href="{% url 'lesson_detail' lesson.course.id lesson.id %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                            {{ forloop.counter }}. {{ lesson.title }}
+                        </a>
+                        {% if lesson in enrollment.completed_lessons.all %}
+                            <span class="text-sm text-green-600 font-semibold">✔ Completed</span>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <p class="text-gray-500">No other lessons available.</p>
+                {% endfor %}
+            </ul>
+        </div>
 
-                <!-- Video Section -->
-                <div class="mb-6">
-                    <video id="lesson-video" controls class="w-full h-64 object-cover rounded-lg">
-                        <source src="{{ lesson.video_url }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
+        <!-- Main Content Column -->
+        <div class="col-span-1 bg-white shadow-lg rounded-lg p-8 space-y-8">
+            <!-- Lesson Title and Description -->
+            <div>
+                <h1 class="text-3xl font-extrabold text-gray-800 mb-2">{{ lesson.title }}</h1>
+                <p class="text-gray-600">{{ lesson.description }}</p>
+            </div>
 
-                <!-- Navigation between Lessons -->
-                <div class="flex justify-between mb-4">
-                    {% if prev_lesson %}
-                        <a href="{% url 'lesson_detail' prev_lesson.course.id prev_lesson.id %}"
-                           class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Previous Lesson</a>
-                    {% else %}
-                        <span class="text-gray-500">No Previous Lesson</span>
-                    {% endif %}
-                    {% if next_lesson %}
-                        <a href="{% url 'lesson_detail' next_lesson.course.id next_lesson.id %}"
-                           class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Next Lesson</a>
-                    {% else %}
-                        <span class="text-gray-500">No Next Lesson</span>
-                    {% endif %}
-                </div>
+            <!-- Video Section -->
+            <div>
+                <video id="lesson-video" controls class="w-full rounded-lg border border-gray-300 shadow-sm">
+                    <source src="{{ lesson.video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
 
-                <!-- Mark as Complete Section -->
-                {% if lesson not in enrollment.completed_lessons.all %}
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="mark_complete" value="true">
-                        <button type="submit"
-                                class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Mark as Complete</button>
-                    </form>
+            <!-- Navigation between Lessons -->
+            <div class="flex justify-between items-center border-t pt-4">
+                {% if prev_lesson %}
+                    <a href="{% url 'lesson_detail' prev_lesson.course.id prev_lesson.id %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                        &larr; Previous Lesson
+                    </a>
                 {% else %}
-                    <p class="text-green-500 font-semibold">Lesson Completed</p>
+                    <span class="text-gray-400">No Previous Lesson</span>
+                {% endif %}
+                {% if next_lesson %}
+                    <a href="{% url 'lesson_detail' next_lesson.course.id next_lesson.id %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                        Next Lesson &rarr;
+                    </a>
+                {% else %}
+                    <span class="text-gray-400">No Next Lesson</span>
                 {% endif %}
             </div>
 
-            <!-- Sidebar (Lessons List) -->
-            <div class="sidebar bg-gray-100 p-4 rounded-lg space-y-4 ">
-                <h3 class="text-xl font-semibold mb-3">Other Lessons in this Course</h3>
-                <ul class="list-none">
-                    {% for lesson in lessons %}
-                        <li class="mb-2">
-                            <a href="{% url 'lesson_detail' lesson.course.id lesson.id %}" 
-                               class="text-blue-500 hover:text-blue-700">
-                                {{ lesson.title }}
-                            </a>
-                        </li>
-                    {% empty %}
-                        <p>No other lessons available.</p>
-                    {% endfor %}
-                </ul>
+            <!-- Mark as Complete Section -->
+            <div>
+                {% if lesson not in enrollment.completed_lessons.all %}
+                    <form method="post" class="flex items-center space-x-4">
+                        {% csrf_token %}
+                        <input type="hidden" name="mark_complete" value="true">
+                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg shadow-sm transition">
+                            Mark as Complete
+                        </button>
+                    </form>
+                {% else %}
+                    <p class="text-green-600 font-medium">✔ You have completed this lesson.</p>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Video End Listener -->
-    <script>
-        const video = document.getElementById("lesson-video");
+<!-- Video End Listener -->
+<script>
+    const video = document.getElementById("lesson-video");
+    const markCompleteForm = document.getElementById("mark-complete-form");
+    const markCompleteButton = document.getElementById("mark-complete-button");
+    const completionFeedback = document.getElementById("completion-feedback");
 
-        // Check if the video is loaded
-        if (video) {
-            video.addEventListener("ended", () => {
-                const markCompleteButton = document.querySelector('form input[name="mark_complete"]');
-                if (markCompleteButton) {
-                    markCompleteButton.closest('form').submit();
-                }
-            });
-        }
-    </script>
+    if (video) {
+        video.addEventListener("ended", () => {
+            if (markCompleteForm) {
+                markCompleteButton.disabled = true;
+                completionFeedback.classList.remove("hidden");
+                markCompleteForm.submit();
+            }
+        });
+    }
 
+    if (markCompleteForm) {
+        markCompleteForm.addEventListener("submit", () => {
+            markCompleteButton.disabled = true;
+            completionFeedback.classList.remove("hidden");
+        });
+    }
+</script>
 {% endblock %}

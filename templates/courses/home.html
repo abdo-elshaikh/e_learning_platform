@@ -47,12 +47,17 @@
         <!-- Left Side: Intro -->
         <div class="text-left">
             <h2 class="text-3xl md:text-4xl font-extrabold text-blue-600 mb-6 animate__animated animate__fadeInLeft">
-                Welcome to Our E-Learning Platform
+                About Us Cairo SE Hub
             </h2>
             <p class="text-lg text-gray-600 mb-8 max-w-lg animate__animated animate__fadeInLeft"
                 style="animation-delay: 0.2s;">
-                Your gateway to knowledge and learning anytime, anywhere. Whether you're a student, a professional, or a
-                lifelong learner, we have something for everyone.
+                Welcome to our educational platform! This website serves as the
+            official repository for all academic materials related to the
+            Software Engineering Professional Diploma, offered by the Institute
+            of Statistical Studies and Research, Cairo University. This platform
+            reflects our commitment to providing high-quality educational
+            resources under the guidance of esteemed faculty members at Cairo
+            University.
             </p>
             <a href="#courses" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium shadow-lg 
                 hover:bg-blue-700 transition duration-300 animate__animated animate__fadeInLeft"
@@ -65,21 +70,22 @@
                 style="animation-delay: 0.4s;">
                 <h3 class="text-2xl font-bold text-blue-600 mb-4">Our Mission</h3>
                 <p class="text-gray-700">
-                    Our mission is to empower learners to unlock their full potential by providing a wide range of
-                    high-quality courses and resources. We believe that education should be accessible to everyone, no
-                    matter where they are or what their background is.
+                    To provide comprehensive and high-quality educational
+                resources for students and professionals in Software Engineering,
+                supporting their academic and practical development in line with
+                the standards of the Professional Diploma at Cairo University's
+                Institute of Statistical Studies and Research.
                 </p>
             </div>
             <div class="bg-white mt-4 shadow-md rounded-lg p-6 animate__animated animate__fadeInRight"
                 style="animation-delay: 0.6s;">
-                <h3 class="text-2xl font-bold text-blue-600 mb-4">Why Choose Us</h3>
-                <ul class="list-disc pl-6 text-gray-700">
-                    <li class="mb-2">- Wide selection of courses from top instructors</li>
-                    <li class="mb-2">- Flexible learning options for individuals and organizations</li>
-                    <li class="mb-2">- Engaging and interactive learning experience</li>
-                    <li class="mb-2">- Access from anywhere, anytime</li>
-                    <li>- Expert instructors with real-world experience</li>
-                </ul>
+                <h3 class="text-2xl font-bold text-blue-600 mb-4">Our Vision</h3>
+                <p class="text-gray-700">
+                    To be the leading platform for Software Engineering education,
+                empowering learners with the skills and knowledge they need to
+                excel in the rapidly evolving field of technology, while
+                maintaining academic excellence and innovation.
+                </p>
             </div>
         </div>
     </div>
@@ -193,7 +199,7 @@
     <div class="container mx-auto text-center">
         <!-- Section Title -->
         <div class="mb-12">
-            <h2 class="text-4xl font-extrabold text-gray-800 leading-tight animate__animated animate__fadeInDown">
+            <h2 class="text-4xl font-extrabold text-blue-600 leading-tight animate__animated animate__fadeInDown">
                 Meet Our Expert Instructors
             </h2>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4 animate__animated animate__fadeInDown"
@@ -206,7 +212,7 @@
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {% for instructor in instructors %}
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl animate__animated animate__fadeInUp"
-                style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
+                style="animation-delay: {{ forloop.counter|add:0.1 }}s;">
                 <!-- Instructor Image -->
                 <div class="relative overflow-hidden">
                     <img class="w-full h-56 object-cover"
@@ -256,103 +262,6 @@
         </div>
     </div>
 </section>
-
-
-
-<!-- Testimonials Section -->
-<section id="testimonials" class="py-16 px-6 bg-gray-500 relative text-white">
-    <div class="max-w-7xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-8">Student Testimonials</h2>
-        <p class="text-md text-gray-50 mb-12 max-w-3xl mx-auto">
-            Hear what our students have to say about their learning experience and how it has helped them achieve
-            their goals.
-        </p>
-        <!-- Swiper Container -->
-        <div class="swiper-container max-w-screen-lg m-auto overflow-hidden">
-            <div class="swiper-wrapper">
-                <!-- Testimonial 1 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white shadow-lg rounded-lg p-8 text-left transform transition duration-300 hover:scale-105 hover:shadow-xl">
-                        <p class="text-gray-600 mb-4 italic">
-                            "I've always wanted to learn web development, and
-                            e_Learning made it possible. The courses are well-structured, and the instructors are
-                            knowledgeable and supportive."
-                        </p>
-                        <div class="flex items-center">
-                            <img src="{% static 'images/testimonial-1.jpg' %}" alt="Student 1"
-                                class="w-16 h-16 rounded-full border-4 border-blue-600">
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-800">John Doe</h3>
-                                <p class="text-gray-600">Web Development Student</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 2 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white shadow-lg rounded-lg p-8 text-left transform transition duration-300 hover:scale-105 hover:shadow-xl">
-                        <p class="text-gray-600 mb-4 italic">
-                            "I've taken several courses on e_Learning, and I'm impressed with the quality of
-                            education. The platform is user-friendly, and the courses are engaging and informative."
-                        </p>
-                        <div class="flex items-center">
-                            <img src="{% static 'images/testimonial-2.jpg' %}" alt="Student 2"
-                                class="w-16 h-16 rounded-full border-4 border-blue-600">
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Jane Smith</h3>
-                                <p class="text-gray-600">Marketing Student</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 3 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white shadow-lg rounded-lg p-8 text-left transform transition duration-300 hover:scale-105 hover:shadow-xl">
-                        <p class="text-gray-600 mb-4 italic">
-                            "I've been using e_Learning for a while now, and I'm impressed with the variety of
-                            courses available. The platform is easy to navigate, and the instructors are top-notch."
-                        </p>
-                        <div class="flex items-center">
-                            <img src="{% static 'images/testimonial-3.jpg' %}" alt="Student 3"
-                                class="w-16 h-16 rounded-full border-4 border-blue-600">
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Sarah Johnson</h3>
-                                <p class="text-gray-600">Business Student</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 4 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white shadow-lg rounded-lg p-8 text-left transform transition duration-300 hover:scale-105 hover:shadow-xl">
-                        <p class="text-gray-600 mb-4 italic">
-                            "I've always wanted to learn web development, and e_Learning made it possible. The
-                            courses are well-structured, and the instructors are knowledgeable and supportive."
-                        </p>
-                        <div class="flex items-center">
-                            <img src="{% static 'images/testimonial-4.jpg' %}" alt="Student 1"
-                                class="w-16 h-16 rounded-full border-4 border-blue-600">
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-800">John Doe</h3>
-                                <p class="text-gray-600">Web Development Student</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Swiper Pagination and Navigation Arrows -->
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-        </div>
-    </div>
-</section>
-
-
 <!-- Contact Section -->
 <section id="contact" class="py-16 px-6 md:px-16 bg-gray-50 text-center">
     <div class="max-w-7xl mx-auto">

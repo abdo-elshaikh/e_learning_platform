@@ -20,7 +20,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {% for instructor in instructors %}
             <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-gray-50 animate__animated animate__fadeInUp"
-                style="animation-delay: {{ forloop.counter|add:0.2 }}s;">
+                style="animation-delay: {{ forloop.counter|add:0.1 }}s;">
                 <!-- Instructor Image -->
                 <div class="h-48 bg-cover bg-center"
                     style="background-image: url('{% if instructor.profile.profile_picture %}{{ instructor.profile.profile_picture.url }}{% else %}{% static 'images/team-3.jpg' %}{% endif %}')">
