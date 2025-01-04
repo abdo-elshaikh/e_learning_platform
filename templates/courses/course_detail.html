@@ -109,12 +109,7 @@
                         {% if lesson in completed_lessons %}
                         <span class="text-green-500 font-medium">Completed</span>
                         {% else %}
-                        <form method="post" action="{% url 'mark_complete' lesson.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-                                Mark as Complete
-                            </button>
-                        </form>
+                        <span class="text-blue-400">Mark as Complete</span>
                         {% endif %}
                         {% else %}
                         <span class="text-gray-400">Enroll to access</span>
